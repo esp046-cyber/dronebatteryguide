@@ -1,0 +1,3572 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drone Battery Guide</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html, body {
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            height: 100%;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: #fff;
+            padding: 1%;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+            overflow: hidden;
+        }
+        
+        header {
+            text-align: center;
+            padding: 15px 1%;
+            background: rgba(0,0,0,0.3);
+            border-radius: 8px;
+            margin-bottom: 1%;
+            border: 2px solid #4a90e2;
+        }
+        
+        h1 {
+            font-size: 1.3em;
+            color: #4a90e2;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+        
+        .subtitle {
+            font-size: 0.85em;
+            color: #a0c4ff;
+            margin-top: 5px;
+        }
+        
+        .nav-tabs {
+            display: flex;
+            gap: 1%;
+            margin-bottom: 1%;
+            flex-wrap: wrap;
+        }
+        
+        .tab-btn {
+            flex: 1;
+            min-width: calc(50% - 0.5%);
+            padding: 12px;
+            background: linear-gradient(135deg, #2d5aa6 0%, #1e3c72 100%);
+            border: 2px solid #4a90e2;
+            border-radius: 6px;
+            color: #fff;
+            font-size: 0.9em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-bottom: 1%;
+        }
+        
+        .tab-btn:hover {
+            background: linear-gradient(135deg, #4a90e2 0%, #2d5aa6 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(74, 144, 226, 0.3);
+        }
+        
+        .tab-btn.active {
+            background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);
+            border-color: #f39c12;
+        }
+        
+        .content-section {
+            display: none;
+            background: rgba(0,0,0,0.4);
+            padding: 1%;
+            border-radius: 8px;
+            border: 2px solid #4a90e2;
+        }
+        
+        .content-section.active {
+            display: block;
+            animation: fadeIn 0.4s;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .card {
+            background: linear-gradient(135deg, rgba(42, 82, 152, 0.6) 0%, rgba(30, 60, 114, 0.6) 100%);
+            padding: 12px;
+            margin-bottom: 1%;
+            border-radius: 6px;
+            border-left: 4px solid #f39c12;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+        }
+        
+        .card h3 {
+            font-size: 1.1em;
+            color: #f39c12;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .card h3::before {
+            content: "⚡";
+            margin-right: 8px;
+            font-size: 1.2em;
+        }
+        
+        .card p, .card ul {
+            font-size: 0.9em;
+            color: #e0e0e0;
+        }
+        
+        .card ul {
+            margin-left: 20px;
+            margin-top: 8px;
+        }
+        
+        .card li {
+            margin-bottom: 5px;
+        }
+        
+        .warning {
+            background: linear-gradient(135deg, rgba(231, 76, 60, 0.3) 0%, rgba(192, 57, 43, 0.3) 100%);
+            border-left-color: #e74c3c;
+            padding: 10px;
+            margin: 1% 0;
+            border-radius: 6px;
+        }
+        
+        .warning h3::before {
+            content: "⚠️";
+        }
+        
+        .tip {
+            background: linear-gradient(135deg, rgba(46, 204, 113, 0.3) 0%, rgba(39, 174, 96, 0.3) 100%);
+            border-left-color: #2ecc71;
+        }
+        
+        .tip h3::before {
+            content: "💡";
+        }
+        
+        .battery-icon {
+            display: inline-block;
+            width: 60px;
+            height: 30px;
+            border: 2px solid #4a90e2;
+            border-radius: 4px;
+            position: relative;
+            margin: 10px 0;
+        }
+        
+        .battery-icon::after {
+            content: "";
+            position: absolute;
+            width: 4px;
+            height: 12px;
+            background: #4a90e2;
+            right: -6px;
+            top: 50%;
+            transform: translateY(-50%);
+            border-radius: 0 2px 2px 0;
+        }
+        
+        .battery-level {
+            height: 100%;
+            background: linear-gradient(90deg, #2ecc71 0%, #27ae60 100%);
+            border-radius: 2px;
+            transition: width 0.3s;
+        }
+        
+        .specs-table {
+            width: 100%;
+            margin: 10px 0;
+            font-size: 0.85em;
+        }
+        
+        .specs-table td {
+            padding: 6px;
+            border-bottom: 1px solid rgba(74, 144, 226, 0.3);
+        }
+        
+        .specs-table td:first-child {
+            color: #4a90e2;
+            font-weight: bold;
+            width: 40%;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 1%;
+            padding: 15px 1%;
+            background: rgba(0,0,0,0.3);
+            border-radius: 8px;
+            font-size: 0.8em;
+            color: #a0c4ff;
+            margin-bottom: 20px;
+            clear: both;
+            width: 100%;
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🚁 Drone Battery Guide</h1>
+            <div class="subtitle">Complete Beginner's Reference</div>
+        </header>
+        
+        <div class="nav-tabs">
+            <button class="tab-btn active" onclick="showTab('basics')">Basics</button>
+            <button class="tab-btn" onclick="showTab('types')">Battery Types</button>
+            <button class="tab-btn" onclick="showTab('charging')">Charging</button>
+            <button class="tab-btn" onclick="showTab('safety')">Safety</button>
+            <button class="tab-btn" onclick="showTab('maintenance')">Maintenance</button>
+            <button class="tab-btn" onclick="showTab('troubleshoot')">Troubleshooting</button>
+            <button class="tab-btn" onclick="showTab('buying')">Buying Guide</button>
+            <button class="tab-btn" onclick="showTab('flight')">Flight Tips</button>
+            <button class="tab-btn" onclick="showTab('weather')">Weather Guide</button>
+            <button class="tab-btn" onclick="showTab('advanced')">Advanced</button>
+            <button class="tab-btn" onclick="showTab('calculate')">Calculators</button>
+            <button class="tab-btn" onclick="showTab('racing')">Racing</button>
+            <button class="tab-btn" onclick="showTab('longrange')">Long Range</button>
+            <button class="tab-btn" onclick="showTab('travel')">Travel Tips</button>
+            <button class="tab-btn" onclick="showTab('winter')">Winter Flying</button>
+            <button class="tab-btn" onclick="showTab('myths')">Myths & Facts</button>
+            <button class="tab-btn" onclick="showTab('emergency')">Emergency</button>
+            <button class="tab-btn" onclick="showTab('upgrade')">Upgrades</button>
+            <button class="tab-btn" onclick="showTab('micro')">Micro Drones</button>
+            <button class="tab-btn" onclick="showTab('cinema')">Cinematic</button>
+            <button class="tab-btn" onclick="showTab('diy')">DIY & Mods</button>
+            <button class="tab-btn" onclick="showTab('testing')">Testing</button>
+            <button class="tab-btn" onclick="showTab('competition')">Competition</button>
+            <button class="tab-btn" onclick="showTab('budget')">Budget Tips</button>
+            <button class="tab-btn" onclick="showTab('science')">Battery Science</button>
+            <button class="tab-btn" onclick="showTab('comparison')">Comparisons</button>
+            <button class="tab-btn" onclick="showTab('tricks')">Pro Tricks</button>
+            <button class="tab-btn" onclick="showTab('mistakes')">Common Mistakes</button>
+            <button class="tab-btn" onclick="showTab('environment')">Eco Guide</button>
+            <button class="tab-btn" onclick="showTab('glossary')">Glossary</button>
+        </div>
+        
+        <div id="basics" class="content-section active">
+            <div class="card">
+                <h3>What is a Drone Battery?</h3>
+                <p>Drone batteries are rechargeable power sources that provide energy for flight. Most modern drones use Lithium Polymer (LiPo) batteries due to their high energy density and light weight.</p>
+                <div class="battery-icon"><div class="battery-level" style="width: 80%"></div></div>
+            </div>
+            
+            <div class="card">
+                <h3>Key Battery Specifications</h3>
+                <table class="specs-table">
+                    <tr><td>Voltage (V)</td><td>Electrical potential (3.7V per cell typical)</td></tr>
+                    <tr><td>Capacity (mAh)</td><td>How much charge it holds</td></tr>
+                    <tr><td>C-Rating</td><td>Discharge rate capability</td></tr>
+                    <tr><td>Cell Count (S)</td><td>Number of cells (3S, 4S, 6S, etc.)</td></tr>
+                </table>
+            </div>
+            
+            <div class="card">
+                <h3>Understanding Battery Labels</h3>
+                <p><strong>Example: 1500mAh 4S 75C</strong></p>
+                <ul>
+                    <li><strong>1500mAh:</strong> Battery capacity (1.5 amp-hours)</li>
+                    <li><strong>4S:</strong> 4 cells in series (14.8V nominal)</li>
+                    <li><strong>75C:</strong> Can discharge at 75× capacity (112.5A max)</li>
+                </ul>
+            </div>
+            
+            <div class="card tip">
+                <h3>Quick Tip</h3>
+                <p>Higher mAh = Longer flight time. Higher C-rating = More power available. More cells (S) = Higher voltage and speed.</p>
+            </div>
+        </div>
+        
+        <div id="types" class="content-section">
+            <div class="card">
+                <h3>LiPo (Lithium Polymer)</h3>
+                <p><strong>Most Common Type</strong></p>
+                <ul>
+                    <li>High energy density and lightweight</li>
+                    <li>Flexible shapes and sizes</li>
+                    <li>Requires careful handling and storage</li>
+                    <li>Nominal voltage: 3.7V per cell</li>
+                    <li>Full charge: 4.2V per cell</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>Li-ion (Lithium Ion)</h3>
+                <p><strong>Consumer Drones</strong></p>
+                <ul>
+                    <li>Safer and more stable than LiPo</li>
+                    <li>Lower maintenance requirements</li>
+                    <li>Slightly heavier for same capacity</li>
+                    <li>Common in DJI and other consumer drones</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>LiHV (Lithium High Voltage)</h3>
+                <p><strong>Performance Racing</strong></p>
+                <ul>
+                    <li>Higher voltage per cell (3.8V nominal, 4.35V full)</li>
+                    <li>More power and longer flight time</li>
+                    <li>Requires compatible charger</li>
+                    <li>Popular in FPV racing drones</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>Common Cell Configurations</h3>
+                <table class="specs-table">
+                    <tr><td>1S</td><td>3.7V - Micro drones</td></tr>
+                    <tr><td>2S</td><td>7.4V - Small drones</td></tr>
+                    <tr><td>3S</td><td>11.1V - Entry racing drones</td></tr>
+                    <tr><td>4S</td><td>14.8V - Standard racing</td></tr>
+                    <tr><td>6S</td><td>22.2V - High performance</td></tr>
+                </table>
+            </div>
+        </div>
+        
+        <div id="charging" class="content-section">
+            <div class="card">
+                <h3>Choosing a Charger</h3>
+                <ul>
+                    <li><strong>Balance Charger:</strong> Essential for LiPo - charges each cell evenly</li>
+                    <li><strong>Smart Charger:</strong> Automatic settings and monitoring</li>
+                    <li><strong>Multi-Port:</strong> Charge multiple batteries simultaneously</li>
+                    <li><strong>Power Supply:</strong> Check wattage requirements</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>Charging Best Practices</h3>
+                <ul>
+                    <li>Always use balance charging mode</li>
+                    <li>Charge at 1C rate or lower (1C = battery capacity)</li>
+                    <li>Example: 1500mAh battery → charge at 1.5A max</li>
+                    <li>Never leave charging batteries unattended</li>
+                    <li>Charge on fireproof surface or LiPo bag</li>
+                    <li>Check battery temperature during charging</li>
+                </ul>
+            </div>
+            
+            <div class="card warning">
+                <h3>Never Do This While Charging</h3>
+                <ul>
+                    <li>Charge damaged or swollen batteries</li>
+                    <li>Use wrong voltage/cell count settings</li>
+                    <li>Charge unattended or overnight</li>
+                    <li>Charge on flammable surfaces</li>
+                    <li>Exceed recommended charge rate</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>Charging Time Calculator</h3>
+                <p><strong>Formula:</strong> Charge Time = (Battery mAh / Charge Rate) × 1.2</p>
+                <p><strong>Example:</strong> 1500mAh battery at 1.5A = (1500/1500) × 1.2 = 1.2 hours</p>
+            </div>
+            
+            <div class="card tip">
+                <h3>Pro Tip</h3>
+                <p>For longest battery life, charge to only 80% (storage voltage) if not flying soon. Full charge just before flying.</p>
+            </div>
+        </div>
+        
+        <div id="safety" class="content-section">
+            <div class="card warning">
+                <h3>Critical Safety Rules</h3>
+                <ul>
+                    <li>Never puncture or crush batteries</li>
+                    <li>Never short circuit terminals</li>
+                    <li>Keep away from water and moisture</li>
+                    <li>Avoid extreme temperatures</li>
+                    <li>Stop using if battery swells or gets hot</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>Voltage Safety Limits</h3>
+                <table class="specs-table">
+                    <tr><td>Full Charge</td><td>4.2V per cell (4.35V for LiHV)</td></tr>
+                    <tr><td>Nominal</td><td>3.7V per cell</td></tr>
+                    <tr><td>Storage</td><td>3.8-3.85V per cell</td></tr>
+                    <tr><td>Low Warning</td><td>3.5V per cell</td></tr>
+                    <tr><td>Critical Low</td><td>3.3V per cell (LAND NOW)</td></tr>
+                    <tr><td>Damage Zone</td><td>Below 3.0V (permanent damage)</td></tr>
+                </table>
+            </div>
+            
+            <div class="card">
+                <h3>Storage Safety</h3>
+                <ul>
+                    <li>Store at 3.8V per cell (storage voltage)</li>
+                    <li>Use fireproof LiPo bag or metal container</li>
+                    <li>Store in cool, dry location (15-25°C)</li>
+                    <li>Keep away from flammable materials</li>
+                    <li>Check voltage monthly during storage</li>
+                </ul>
+            </div>
+            
+            <div class="card warning">
+                <h3>Signs of Damaged Battery</h3>
+                <ul>
+                    <li>Swelling or puffing (puffy pack)</li>
+                    <li>Physical damage to casing</li>
+                    <li>Exposed cells or wires</li>
+                    <li>Excessive heat during use</li>
+                    <li>Voltage imbalance between cells (>0.1V)</li>
+                    <li>Rapid voltage drop during flight</li>
+                </ul>
+                <p><strong>If any signs present: STOP USING IMMEDIATELY</strong></p>
+            </div>
+            
+            <div class="card">
+                <h3>Emergency: Battery Fire</h3>
+                <ul>
+                    <li>Move battery outdoors if safe to do so</li>
+                    <li>Do NOT use water (spreads lithium fire)</li>
+                    <li>Use sand, dirt, or Class D extinguisher</li>
+                    <li>Let it burn out in safe location if necessary</li>
+                    <li>Call emergency services for large fires</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div id="maintenance" class="content-section">
+            <div class="card">
+                <h3>Daily Pre-Flight Check</h3>
+                <ul>
+                    <li>Visual inspection for damage</li>
+                    <li>Check for swelling or deformation</li>
+                    <li>Verify connector is secure</li>
+                    <li>Confirm voltage is appropriate</li>
+                    <li>Feel temperature (should be room temp)</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>Flight Usage Guidelines</h3>
+                <ul>
+                    <li>Allow battery to warm up in cold weather</li>
+                    <li>Monitor voltage during flight</li>
+                    <li>Land at 3.5V per cell minimum</li>
+                    <li>Don't land at critically low voltage</li>
+                    <li>Let battery cool before recharging (15-30 min)</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>Long-Term Storage</h3>
+                <ul>
+                    <li>Charge to storage voltage (3.8V/cell)</li>
+                    <li>Store in LiPo bag or ammo can</li>
+                    <li>Check voltage every 2-3 months</li>
+                    <li>Recharge if voltage drops below 3.7V/cell</li>
+                    <li>Keep in temperature-stable environment</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>Extending Battery Life</h3>
+                <ul>
+                    <li>Avoid full discharge (land at 20-30% capacity)</li>
+                    <li>Don't store fully charged</li>
+                    <li>Keep battery cool during use</li>
+                    <li>Use appropriate C-rating for your drone</li>
+                    <li>Balance charge every time</li>
+                    <li>Cycle batteries (rotate use among packs)</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>Battery Cycle Life</h3>
+                <p><strong>Expected Lifespan:</strong></p>
+                <ul>
+                    <li>Good care: 200-300 cycles</li>
+                    <li>Average care: 100-150 cycles</li>
+                    <li>Poor care: 50-80 cycles</li>
+                </ul>
+                <p>One cycle = full charge to safe discharge level</p>
+            </div>
+            
+            <div class="card tip">
+                <h3>Pro Tip</h3>
+                <p>Label your batteries with purchase date and cycle count. This helps track health and plan replacements.</p>
+            </div>
+        </div>
+        
+        <div id="troubleshoot" class="content-section">
+            <div class="card warning">
+                <h3>Battery Won't Charge</h3>
+                <p><strong>Possible Causes:</strong></p>
+                <ul>
+                    <li>Voltage too low (below 3V/cell) - may need special recovery</li>
+                    <li>Charger not detecting battery - check connections</li>
+                    <li>Wrong charge settings - verify cell count</li>
+                    <li>Damaged cells - if beyond repair, dispose properly</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>Battery Gets Hot During Flight</h3>
+                <p><strong>Solutions:</strong></p>
+                <ul>
+                    <li>C-rating too low for your drone - upgrade battery</li>
+                    <li>Battery aging - consider replacement</li>
+                    <li>Excessive current draw - check drone components</li>
+                    <li>Hot weather - allow cooling time between flights</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>Short Flight Time</h3>
+                <p><strong>Check These:</strong></p>
+                <ul>
+                    <li>Battery capacity degraded - normal with age</li>
+                    <li>Not fully charged - check charger</li>
+                    <li>Voltage sag under load - internal resistance increased</li>
+                    <li>Cold weather - reduces capacity temporarily</li>
+                    <li>Drone issues - increased power consumption</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>Cell Voltage Imbalance</h3>
+                <p><strong>Difference >0.1V between cells:</strong></p>
+                <ul>
+                    <li>Run balance charge cycle</li>
+                    <li>If persists after 2-3 cycles, retire battery</li>
+                    <li>Indicates cell degradation</li>
+                    <li>Can cause failure during flight</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>Swollen Battery</h3>
+                <p><strong>This is SERIOUS:</strong></p>
+                <ul>
+                    <li>Stop using immediately</li>
+                    <li>Do NOT charge</li>
+                    <li>Discharge to 0V in salt water bath</li>
+                    <li>Dispose at battery recycling center</li>
+                    <li>Never throw in regular trash</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>Safe Battery Disposal</h3>
+                <p><strong>Step-by-step:</strong></p>
+                <ul>
+                    <li>Discharge battery to 0V (salt water method or discharge tool)</li>
+                    <li>Tape terminals to prevent shorts</li>
+                    <li>Take to electronics recycling center</li>
+                    <li>Many hobby shops accept old batteries</li>
+                    <li>Check local hazardous waste facilities</li>
+                </ul>
+            </div>
+            
+            <div class="card tip">
+                <h3>Salt Water Discharge Method</h3>
+                <p>Mix salt water, place battery fully submerged for 24 hours. This safely discharges battery to 0V for disposal. Do this outdoors in non-metal container.</p>
+            </div>
+        </div>
+        
+        <div id="buying" class="content-section">
+            <div class="card">
+                <h3>Step 1: Determine Your Needs</h3>
+                <p><strong>Match battery to drone type:</strong></p>
+                <ul>
+                    <li><strong>Racing FPV:</strong> High C-rating (75C+), 4S-6S, lighter weight</li>
+                    <li><strong>Freestyle:</strong> Balance of capacity and C-rating, 4S-6S</li>
+                    <li><strong>Cinematic:</strong> Higher capacity (2000mAh+), moderate C-rating</li>
+                    <li><strong>Long Range:</strong> Maximum capacity, 4S-6S, weight acceptable</li>
+                    <li><strong>Micro/Whoop:</strong> 1S-2S, 300-500mAh, lightweight</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>Step 2: Calculate Required Capacity</h3>
+                <p><strong>Formula for flight time estimation:</strong></p>
+                <p>Flight Time (min) = (Battery mAh × 0.8) / (Avg Current Draw in mA) × 60</p>
+                <ul>
+                    <li>Example: 1500mAh battery, 30A average draw</li>
+                    <li>= (1500 × 0.8) / 30000 × 60 = 2.4 minutes</li>
+                    <li>Add 20% for multiple batteries in rotation</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>Step 3: Choose C-Rating</h3>
+                <p><strong>Calculate required C-rating:</strong></p>
+                <ul>
+                    <li>Find your drone's max amp draw (check specs or measure)</li>
+                    <li>Formula: Required C-rating = Max Amps / Battery Capacity (Ah)</li>
+                    <li>Example: 100A draw, 1.5Ah battery = 100/1.5 = 67C minimum</li>
+                    <li>Recommendation: Add 20% safety margin</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>Step 4: Connector Types</h3>
+                <table class="specs-table">
+                    <tr><td>XT30</td><td>Up to 30A - micro/small drones</td></tr>
+                    <tr><td>XT60</td><td>Up to 60A - most common, 5" drones</td></tr>
+                    <tr><td>XT90</td><td>Up to 90A - larger/high-power builds</td></tr>
+                    <tr><td>Deans/T-plug</td><td>Alternative to XT60</td></tr>
+                    <tr><td>JST</td><td>Small drones, low current</td></tr>
+                </table>
+                <p>Match connector to your drone or use adapter (not recommended for high current)</p>
+            </div>
+            
+            <div class="card">
+                <h3>Step 5: Brand Selection</h3>
+                <p><strong>Reputable Brands:</strong></p>
+                <ul>
+                    <li><strong>Premium:</strong> Tattu R-Line, CNHL, GNB, Turnigy Graphene</li>
+                    <li><strong>Mid-Range:</strong> ZOP Power, Gens Ace, Turnigy</li>
+                    <li><strong>Budget:</strong> Zeee, Ovonic (check reviews)</li>
+                    <li>Avoid: Unknown brands, suspiciously cheap batteries</li>
+                </ul>
+            </div>
+            
+            <div class="card tip">
+                <h3>Money-Saving Tips</h3>
+                <ul>
+                    <li>Buy 3-5 batteries at once for bulk discounts</li>
+                    <li>Watch for holiday sales (Black Friday, etc.)</li>
+                    <li>Join RC communities for group buys</li>
+                    <li>Mid-range brands offer best value/performance ratio</li>
+                    <li>Premium batteries last longer = better long-term value</li>
+                </ul>
+            </div>
+            
+            <div class="card warning">
+                <h3>Red Flags When Buying</h3>
+                <ul>
+                    <li>Extremely cheap prices (too good to be true)</li>
+                    <li>No brand name or unknown manufacturer</li>
+                    <li>Impossible specifications (200C rating on cheap battery)</li>
+                    <li>No safety certifications</li>
+                    <li>Seller has many negative reviews about batteries</li>
+                    <li>Batteries arrive damaged or poorly packaged</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>How Many Batteries to Buy</h3>
+                <p><strong>Recommended setup:</strong></p>
+                <ul>
+                    <li><strong>Beginner:</strong> 3-4 batteries (rotate while charging)</li>
+                    <li><strong>Regular Pilot:</strong> 6-8 batteries</li>
+                    <li><strong>Serious/Racing:</strong> 10+ batteries</li>
+                    <li>Plan for 15-20 minute session per battery</li>
+                    <li>Always have backups for field repairs</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div id="flight" class="content-section">
+            <div class="card">
+                <h3>Pre-Flight Battery Checklist</h3>
+                <p><strong>Complete every time before flying:</strong></p>
+                <ul>
+                    <li>✓ Visual inspection - no damage, swelling, or wear</li>
+                    <li>✓ Check voltage - should be 4.2V/cell for full charge</li>
+                    <li>✓ Feel temperature - room temperature only</li>
+                    <li>✓ Inspect connectors - no damage, corrosion, or loose pins</li>
+                    <li>✓ Verify balance lead secure</li>
+                    <li>✓ Check XT60/connector for burnt marks</li>
+                    <li>✓ Ensure battery strapped securely in drone</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>Battery Break-In Process</h3>
+                <p><strong>For new batteries (first 5 cycles):</strong></p>
+                <ul>
+                    <li><strong>Cycle 1-2:</strong> Fly at 50% throttle, land at 3.7V/cell</li>
+                    <li><strong>Cycle 3-4:</strong> Increase to 75% throttle, land at 3.6V/cell</li>
+                    <li><strong>Cycle 5+:</strong> Normal flying, land at 3.5V/cell</li>
+                    <li>This process conditions cells for optimal performance</li>
+                    <li>Skip break-in = reduced lifespan and performance</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>In-Flight Voltage Monitoring</h3>
+                <table class="specs-table">
+                    <tr><td>4.2V/cell</td><td>100% - Fresh off charger</td></tr>
+                    <tr><td>3.9V/cell</td><td>80% - Optimal performance range</td></tr>
+                    <tr><td>3.7V/cell</td><td>50% - Still good power</td></tr>
+                    <tr><td>3.5V/cell</td><td>20% - START LANDING PROCEDURE</td></tr>
+                    <tr><td>3.3V/cell</td><td>5% - LAND IMMEDIATELY</td></tr>
+                    <tr><td><3.0V/cell</td><td>CRITICAL - Battery damage occurring</td></tr>
+                </table>
+            </div>
+            
+            <div class="card">
+                <h3>Setting Up Voltage Alarms</h3>
+                <p><strong>Recommended alarm settings:</strong></p>
+                <ul>
+                    <li><strong>First Warning:</strong> 3.6V per cell (30% capacity)</li>
+                    <li><strong>Second Warning:</strong> 3.5V per cell (start landing)</li>
+                    <li><strong>Critical:</strong> 3.3V per cell (land now!)</li>
+                    <li>Use OSD (on-screen display) for real-time voltage</li>
+                    <li>Battery buzzer as backup alarm</li>
+                    <li>Physical voltage checker for verification</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>Post-Flight Battery Care</h3>
+                <p><strong>Immediately after landing:</strong></p>
+                <ul>
+                    <li>Check battery temperature (should be warm, not hot)</li>
+                    <li>If hot (>60°C/140°F), let cool before handling</li>
+                    <li>Disconnect from drone if done flying</li>
+                    <li>Check final voltage on each cell</li>
+                    <li>Wait 15-30 minutes before recharging</li>
+                    <li>Store in shade if at flying field</li>
+                    <li>Record flight time and conditions</li>
+                </ul>
+            </div>
+            
+            <div class="card tip">
+                <h3>Maximizing Flight Time</h3>
+                <ul>
+                    <li>Fly smoothly - aggressive movements drain faster</li>
+                    <li>Maintain moderate throttle (60-70%)</li>
+                    <li>Reduce weight - remove unnecessary equipment</li>
+                    <li>Use efficient props for cruising</li>
+                    <li>Fly in calm conditions when possible</li>
+                    <li>Keep battery warm in cold weather</li>
+                    <li>Regular maintenance = efficient motors</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>Battery Rotation Strategy</h3>
+                <p><strong>Extend overall battery lifespan:</strong></p>
+                <ul>
+                    <li>Number all batteries (1, 2, 3, etc.)</li>
+                    <li>Rotate usage evenly across all packs</li>
+                    <li>Track cycle count per battery</li>
+                    <li>Retire batteries at similar cycle counts</li>
+                    <li>Don't always use "best" battery for important flights</li>
+                    <li>Helps identify weak batteries early</li>
+                </ul>
+            </div>
+            
+            <div class="card warning">
+                <h3>When to Stop Flying</h3>
+                <p><strong>LAND IMMEDIATELY if:</strong></p>
+                <ul>
+                    <li>Voltage drops to 3.3V per cell</li>
+                    <li>Sudden voltage sag under throttle</li>
+                    <li>Battery feels excessively hot</li>
+                    <li>Loss of power or unusual behavior</li>
+                    <li>Low voltage alarm triggers</li>
+                    <li>Any burning smell from battery area</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div id="weather" class="content-section">
+            <div class="card">
+                <h3>Temperature Effects on Batteries</h3>
+                <table class="specs-table">
+                    <tr><td>Below 0°C (32°F)</td><td>Capacity reduced 20-50%, risk of damage</td></tr>
+                    <tr><td>0-10°C (32-50°F)</td><td>Reduced capacity 10-20%, warm before use</td></tr>
+                    <tr><td>10-25°C (50-77°F)</td><td>Optimal performance range</td></tr>
+                    <tr><td>25-35°C (77-95°F)</td><td>Good performance, monitor temperature</td></tr>
+                    <tr><td>Above 35°C (95°F)</td><td>Risk of overheating, shorter flights</td></tr>
+                    <tr><td>Above 60°C (140°F)</td><td>DANGER - Stop use immediately</td></tr>
+                </table>
+            </div>
+            
+            <div class="card">
+                <h3>Flying in Cold Weather</h3>
+                <p><strong>Essential cold weather tips:</strong></p>
+                <ul>
+                    <li>Preheat batteries to 20-25°C (68-77°F) before flight</li>
+                    <li>Use hand warmers or insulated pouch</li>
+                    <li>Keep batteries in heated car until ready</li>
+                    <li>Reduce flight time by 30-40%</li>
+                    <li>Land at higher voltage (3.6-3.7V/cell)</li>
+                    <li>Fly conservatively - reduced capacity</li>
+                    <li>Don't charge cold batteries - warm to room temp first</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>Flying in Hot Weather</h3>
+                <p><strong>Heat management strategies:</strong></p>
+                <ul>
+                    <li>Store batteries in cooler or shaded area</li>
+                    <li>Reduce flight time by 20-30%</li>
+                    <li>Allow longer cooling between flights (30+ min)</li>
+                    <li>Check temperature after every flight</li>
+                    <li>Fly during cooler parts of day (morning/evening)</li>
+                    <li>Increase airflow around battery if possible</li>
+                    <li>Never leave batteries in hot car</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>Humidity and Rain</h3>
+                <p><strong>Moisture protection:</strong></p>
+                <ul>
+                    <li>Never fly in rain - water damage risk</li>
+                    <li>High humidity (>80%) - watch for condensation</li>
+                    <li>Store in waterproof case or bag</li>
+                    <li>Use desiccant packs in storage</li>
+                    <li>If moisture enters battery, do NOT use</li>
+                    <li>Dry completely before charging if damp</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>Wind Conditions</h3>
+                <p><strong>Battery impact of wind:</strong></p>
+                <ul>
+                    <li>Headwind: 20-40% more power consumption</li>
+                    <li>Strong gusts: Rapid throttle changes drain faster</li>
+                    <li>Reduce flight time in windy conditions</li>
+                    <li>Keep return reserve higher in wind</li>
+                    <li>Monitor voltage more frequently</li>
+                </ul>
+            </div>
+            
+            <div class="card warning">
+                <h3>Extreme Weather - Don't Fly</h3>
+                <ul>
+                    <li>Temperature below -10°C (14°F)</li>
+                    <li>Temperature above 40°C (104°F)</li>
+                    <li>Any precipitation (rain, snow, sleet)</li>
+                    <li>High winds (>25 mph for most drones)</li>
+                    <li>Thunderstorms or lightning in area</li>
+                    <li>Heavy fog (visibility issues + moisture)</li>
+                </ul>
+            </div>
+            
+            <div class="card tip">
+                <h3>Season-Specific Tips</h3>
+                <ul>
+                    <li><strong>Winter:</strong> Battery warmers, shorter flights, higher land voltage</li>
+                    <li><strong>Spring:</strong> Watch for rain, optimal temps emerging</li>
+                    <li><strong>Summer:</strong> Shade batteries, fly early/late, heat management</li>
+                    <li><strong>Fall:</strong> Cooling temps, prepare winter gear, dry conditions good</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div id="advanced" class="content-section">
+            <div class="card">
+                <h3>Internal Resistance (IR)</h3>
+                <p><strong>What is IR:</strong></p>
+                <ul>
+                    <li>Measure of battery's health and efficiency</li>
+                    <li>Lower IR = better performance</li>
+                    <li>Measured in milliohms (mΩ)</li>
+                    <li>Increases with age and cycle count</li>
+                </ul>
+                <table class="specs-table">
+                    <tr><td>New Battery</td><td>3-10 mΩ per cell</td></tr>
+                    <tr><td>Good Condition</td><td>10-20 mΩ per cell</td></tr>
+                    <tr><td>Degraded</td><td>20-40 mΩ per cell</td></tr>
+                    <tr><td>Replace Soon</td><td>40+ mΩ per cell</td></tr>
+                </table>
+            </div>
+            
+            <div class="card">
+                <h3>Voltage Sag Explained</h3>
+                <p><strong>Understanding voltage drop:</strong></p>
+                <ul>
+                    <li>Voltage drops under load (normal)</li>
+                    <li>Higher IR = more voltage sag</li>
+                    <li>Affects performance and flight time</li>
+                    <li>Example: 16.8V battery sags to 14.5V under full throttle</li>
+                    <li>New batteries have less sag than old ones</li>
+                    <li>Monitor resting voltage vs. under-load voltage</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>Parallel vs. Series Configuration</h3>
+                <p><strong>Series (S):</strong></p>
+                <ul>
+                    <li>Voltage adds up (3S = 11.1V, 4S = 14.8V)</li>
+                    <li>Capacity stays same</li>
+                    <li>More cells = more power and speed</li>
+                </ul>
+                <p><strong>Parallel (P):</strong></p>
+                <ul>
+                    <li>Capacity adds up (2P = double mAh)</li>
+                    <li>Voltage stays same</li>
+                    <li>Used in larger battery packs</li>
+                    <li>Example: 4S2P = 4 cells series, 2 parallel = double capacity at 14.8V</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>C-Rating Reality Check</h3>
+                <p><strong>Understanding actual C-ratings:</strong></p>
+                <ul>
+                    <li>Advertised C-ratings often inflated</li>
+                    <li>Real-world: expect 60-70% of advertised</li>
+                    <li>Burst rating ≠ continuous rating</li>
+                    <li>Test: check voltage sag under load</li>
+                    <li>Premium brands more accurate ratings</li>
+                    <li>Budget brands may overstate by 30-50%</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>Battery Matching and Pairing</h3>
+                <p><strong>For dual battery setups:</strong></p>
+                <ul>
+                    <li>Use identical batteries (same brand, model, age)</li>
+                    <li>Match internal resistance within 5 mΩ</li>
+                    <li>Charge to same voltage</li>
+                    <li>Discharge evenly during use</li>
+                    <li>Mismatched batteries = uneven wear</li>
+                    <li>Can damage both batteries</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>DIY Battery Mods (Advanced)</h3>
+                <p><strong>Common modifications:</strong></p>
+                <ul>
+                    <li>Connector swaps (XT60 to XT90, etc.)</li>
+                    <li>Balance lead extensions</li>
+                    <li>Adding JST-XH connectors</li>
+                    <li>Heat shrink replacements</li>
+                </ul>
+                <p><strong>⚠️ WARNING:</strong> Only for experienced users. Improper mods can cause fires.</p>
+            </div>
+            
+            <div class="card">
+                <h3>Fast Charging Considerations</h3>
+                <p><strong>Charging above 1C:</strong></p>
+                <ul>
+                    <li>Reduces battery lifespan by 20-50%</li>
+                    <li>Generates more heat</li>
+                    <li>Only use with fast-charge capable batteries</li>
+                    <li>2C max for most LiPos</li>
+                    <li>Monitor temperature constantly</li>
+                    <li>Emergency only - not recommended regularly</li>
+                </ul>
+            </div>
+            
+            <div class="card tip">
+                <h3>Advanced Storage Tips</h3>
+                <ul>
+                    <li>Store at 40-60% charge for long-term (months)</li>
+                    <li>Ideal storage: 15-20°C (59-68°F)</li>
+                    <li>Metal ammo cans provide fire protection</li>
+                    <li>Fireproof LiPo bags inside ammo cans = extra safety</li>
+                    <li>Store in low-humidity environment</li>
+                    <li>Keep away from direct sunlight</li>
+                    <li>Monthly voltage checks for long-term storage</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>Understanding Discharge Curves</h3>
+                <p><strong>How voltage drops during flight:</strong></p>
+                <ul>
+                    <li>4.2V → 3.9V: 20% capacity used, minimal performance loss</li>
+                    <li>3.9V → 3.7V: 50% capacity, optimal performance zone</li>
+                    <li>3.7V → 3.5V: 80% capacity, noticeable power reduction</li>
+                    <li>3.5V → 3.3V: 95% capacity, significant power loss</li>
+                    <li>Below 3.3V: Damage zone, critical landing needed</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>Battery Recovery (Use with Caution)</h3>
+                <p><strong>For batteries below 3.0V per cell:</strong></p>
+                <ul>
+                    <li>Some chargers have recovery mode</li>
+                    <li>Charges at very low current (0.1A)</li>
+                    <li>Success rate: 50% or less</li>
+                    <li>Recovered batteries have reduced capacity</li>
+                    <li>Not recommended for safety-critical use</li>
+                    <li>Only attempt if battery has no other issues</li>
+                </ul>
+                <p><strong>⚠️ Better to replace than risk recovery</strong></p>
+            </div>
+        </div>
+        
+        <div id="calculate" class="content-section">
+            <div class="card">
+                <h3>Flight Time Calculator</h3>
+                <p><strong>Formula:</strong></p>
+                <p>Flight Time = (Battery mAh × Discharge % × Battery Efficiency) / Average Current Draw</p>
+                <ul>
+                    <li>Battery mAh: Your battery capacity</li>
+                    <li>Discharge %: 0.8 (use 80% of capacity)</li>
+                    <li>Battery Efficiency: 0.9 (90% efficient)</li>
+                    <li>Average Current: Measured or estimated from specs</li>
+                </ul>
+                <p><strong>Example Calculation:</strong></p>
+                <ul>
+                    <li>2200mAh battery, 35A average draw</li>
+                    <li>= (2200 × 0.8 × 0.9) / 35 = 45.26 Ah / 35A</li>
+                    <li>= 1.29 hours = 7.75 minutes flight time</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>Required C-Rating Calculator</h3>
+                <p><strong>Formula:</strong></p>
+                <p>Required C-Rating = Max Amp Draw / Battery Capacity (in Ah)</p>
+                <p><strong>Step-by-Step:</strong></p>
+                <ul>
+                    <li>Find max amp draw: Check motor specs × number of motors</li>
+                    <li>Convert battery capacity to Ah: 1500mAh = 1.5Ah</li>
+                    <li>Divide: Max Amps / Ah = Required C-Rating</li>
+                    <li>Add safety margin: Multiply by 1.2</li>
+                </ul>
+                <p><strong>Example:</strong></p>
+                <ul>
+                    <li>4 motors × 25A each = 100A max draw</li>
+                    <li>1300mAh battery = 1.3Ah</li>
+                    <li>100 / 1.3 = 76.9C required</li>
+                    <li>With 20% margin: 76.9 × 1.2 = 92C recommended</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>Voltage Drop Calculator</h3>
+                <p><strong>Estimate voltage under load:</strong></p>
+                <p>Voltage Drop = Current Draw × Internal Resistance</p>
+                <ul>
+                    <li>New battery IR: ~5-10 mΩ per cell</li>
+                    <li>Old battery IR: ~20-40 mΩ per cell</li>
+                </ul>
+                <p><strong>Example (4S battery):</strong></p>
+                <ul>
+                    <li>Current: 80A, IR: 8 mΩ per cell</li>
+                    <li>Total IR: 8 × 4 = 32 mΩ = 0.032Ω</li>
+                    <li>Voltage drop: 80A × 0.032Ω = 2.56V</li>
+                    <li>Under load: 16.8V - 2.56V = 14.24V</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>Battery Weight vs Flight Time</h3>
+                <p><strong>Efficiency sweet spot:</strong></p>
+                <table class="specs-table">
+                    <tr><td>1000mAh</td><td>~100g - 3-4 min (racing)</td></tr>
+                    <tr><td>1300mAh</td><td>~140g - 4-5 min (racing/freestyle)</td></tr>
+                    <tr><td>1500mAh</td><td>~160g - 5-6 min (freestyle)</td></tr>
+                    <tr><td>1800mAh</td><td>~200g - 6-7 min (cinematic)</td></tr>
+                    <tr><td>2200mAh</td><td>~240g - 7-9 min (long range)</td></tr>
+                    <tr><td>3000mAh</td><td>~330g - 10-12 min (cruising)</td></tr>
+                </table>
+                <p>Note: Times vary based on flying style and drone efficiency</p>
+            </div>
+            
+            <div class="card">
+                <h3>Power to Weight Ratio</h3>
+                <p><strong>Calculate drone performance:</strong></p>
+                <p>PWR = Total Thrust / Total Weight (including battery)</p>
+                <ul>
+                    <li><strong>2:1</strong> - Minimum for stable flight</li>
+                    <li><strong>4:1</strong> - Good maneuverability</li>
+                    <li><strong>6:1</strong> - Responsive freestyle</li>
+                    <li><strong>8:1+</strong> - High-performance racing</li>
+                </ul>
+                <p><strong>Example:</strong></p>
+                <ul>
+                    <li>Drone + battery: 600g total</li>
+                    <li>4 motors × 800g thrust = 3200g total thrust</li>
+                    <li>PWR: 3200 / 600 = 5.3:1 (good for freestyle)</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>Cost Per Flight Calculator</h3>
+                <p><strong>Calculate true battery cost:</strong></p>
+                <p>Cost Per Flight = Battery Price / Expected Cycle Life</p>
+                <ul>
+                    <li><strong>Budget battery:</strong> $20 / 80 cycles = $0.25 per flight</li>
+                    <li><strong>Mid-range:</strong> $30 / 150 cycles = $0.20 per flight</li>
+                    <li><strong>Premium:</strong> $50 / 250 cycles = $0.20 per flight</li>
+                </ul>
+                <p>Premium batteries often cheaper in long run!</p>
+            </div>
+            
+            <div class="card tip">
+                <h3>Quick Reference: mAh to Ah Conversion</h3>
+                <table class="specs-table">
+                    <tr><td>300mAh</td><td>0.3Ah</td></tr>
+                    <tr><td>500mAh</td><td>0.5Ah</td></tr>
+                    <tr><td>1000mAh</td><td>1.0Ah</td></tr>
+                    <tr><td>1500mAh</td><td>1.5Ah</td></tr>
+                    <tr><td>2200mAh</td><td>2.2Ah</td></tr>
+                    <tr><td>3000mAh</td><td>3.0Ah</td></tr>
+                </table>
+            </div>
+            
+            <div class="card">
+                <h3>Watt-Hour (Wh) Calculator</h3>
+                <p><strong>For airline travel regulations:</strong></p>
+                <p>Wh = (Voltage × Capacity in Ah)</p>
+                <ul>
+                    <li>Example: 4S 1500mAh battery</li>
+                    <li>= 14.8V × 1.5Ah = 22.2Wh</li>
+                    <li>Airlines typically allow up to 100Wh without approval</li>
+                    <li>100-160Wh requires airline approval</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div id="racing" class="content-section">
+            <div class="card">
+                <h3>Racing Battery Requirements</h3>
+                <p><strong>What makes a good race battery:</strong></p>
+                <ul>
+                    <li><strong>High C-Rating:</strong> 100C+ for instant throttle response</li>
+                    <li><strong>Low Weight:</strong> Every gram counts in racing</li>
+                    <li><strong>Compact Size:</strong> Better aerodynamics</li>
+                    <li><strong>Low IR:</strong> Minimal voltage sag under hard punches</li>
+                    <li><strong>Consistent Power:</strong> Even output throughout discharge</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>Optimal Racing Battery Specs</h3>
+                <p><strong>5-inch Racing Quad (Standard):</strong></p>
+                <ul>
+                    <li><strong>Capacity:</strong> 1000-1500mAh</li>
+                    <li><strong>Configuration:</strong> 4S or 6S</li>
+                    <li><strong>C-Rating:</strong> 100C minimum, 120-150C preferred</li>
+                    <li><strong>Weight:</strong> 100-160g</li>
+                    <li><strong>Flight Time:</strong> 2-4 minutes of racing</li>
+                </ul>
+                <p><strong>Popular Racing Batteries:</strong></p>
+                <ul>
+                    <li>Tattu R-Line 4S 1300mAh 95C</li>
+                    <li>CNHL Black Series 4S 1500mAh 100C</li>
+                    <li>GNB 6S 1300mAh 120C</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>4S vs 6S for Racing</h3>
+                <p><strong>4S (14.8V nominal):</strong></p>
+                <ul>
+                    <li>✓ More forgiving to fly</li>
+                    <li>✓ Longer motor life</li>
+                    <li>✓ Cheaper batteries and ESCs</li>
+                    <li>✓ Good for technical tracks</li>
+                    <li>✗ Less top-end power</li>
+                </ul>
+                <p><strong>6S (22.2V nominal):</strong></p>
+                <ul>
+                    <li>✓ More raw power and speed</li>
+                    <li>✓ Better punch-out authority</li>
+                    <li>✓ Smoother power delivery</li>
+                    <li>✓ Preferred for open tracks</li>
+                    <li>✗ More expensive setup</li>
+                    <li>✗ Harder on components</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>Race Day Battery Preparation</h3>
+                <p><strong>Before the event:</strong></p>
+                <ul>
+                    <li>Charge all batteries to 4.2V per cell</li>
+                    <li>Check internal resistance of each pack</li>
+                    <li>Label batteries with IR values</li>
+                    <li>Inspect all connectors and wires</li>
+                    <li>Bring 2-3x more batteries than race rounds</li>
+                    <li>Pack parallel charging board</li>
+                    <li>Bring backup charger</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>Between Race Heats</h3>
+                <p><strong>Fast turnaround strategy:</strong></p>
+                <ul>
+                    <li>Land at 3.5V per cell minimum</li>
+                    <li>Let battery rest 5-10 minutes before recharging</li>
+                    <li>Use parallel charging for speed (if safe)</li>
+                    <li>Monitor temperature during fast charge</li>
+                    <li>Rotate batteries - don't use same pack back-to-back</li>
+                    <li>Keep charged batteries in shade</li>
+                </ul>
+            </div>
+            
+            <div class="card warning">
+                <h3>Race Battery Warning Signs</h3>
+                <p><strong>Replace battery if you notice:</strong></p>
+                <ul>
+                    <li>Sudden power loss mid-race</li>
+                    <li>Excessive voltage sag (more than 2V under load)</li>
+                    <li>Battery hot after short race (2-3 min)</li>
+                    <li>IR increased by 50% from new</li>
+                    <li>Physical damage from crashes</li>
+                    <li>Inconsistent lap times with same battery</li>
+                </ul>
+            </div>
+            
+            <div class="card tip">
+                <h3>Pro Racer Tips</h3>
+                <ul>
+                    <li>Use lowest capacity that completes track - less weight = faster</li>
+                    <li>Fresh batteries for qualification rounds</li>
+                    <li>Slightly used batteries for practice</li>
+                    <li>Track battery performance per pack</li>
+                    <li>Match batteries to track type (technical vs. open)</li>
+                    <li>Keep 2-3 "hero packs" for finals</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>Racing Battery Lifespan</h3>
+                <p><strong>Realistic expectations:</strong></p>
+                <ul>
+                    <li>Race batteries: 50-100 hard cycles</li>
+                    <li>Practice batteries: 100-150 cycles</li>
+                    <li>Hard racing reduces lifespan significantly</li>
+                    <li>High C-rating batteries wear faster</li>
+                    <li>Budget 6-10 batteries per season (active racing)</li>
+                    <li>Consider it consumable like props</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div id="longrange" class="content-section">
+            <div class="card">
+                <h3>Long Range Battery Priorities</h3>
+                <p><strong>Key factors for endurance:</strong></p>
+                <ul>
+                    <li><strong>Maximum Capacity:</strong> 2200mAh+ preferred</li>
+                    <li><strong>Moderate C-Rating:</strong> 50-75C sufficient</li>
+                    <li><strong>Weight Acceptable:</strong> Efficiency > light weight</li>
+                    <li><strong>Reliable Brands:</strong> Consistency crucial for range</li>
+                    <li><strong>Good Quality Cells:</strong> Even discharge curve</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>Optimal Long Range Setup</h3>
+                <p><strong>Typical 7-inch Long Range:</strong></p>
+                <ul>
+                    <li><strong>Capacity:</strong> 2200-3500mAh</li>
+                    <li><strong>Configuration:</strong> 4S or 6S</li>
+                    <li><strong>C-Rating:</strong> 50-75C</li>
+                    <li><strong>Weight:</strong> 240-380g</li>
+                    <li><strong>Flight Time:</strong> 15-30 minutes cruising</li>
+                </ul>
+                <p><strong>Popular Long Range Batteries:</strong></p>
+                <ul>
+                    <li>CNHL MiniStar 6S 2200mAh 70C</li>
+                    <li>Tattu 4S 3000mAh 45C</li>
+                    <li>GNB 6S 2700mAh 80C</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>Range Calculation</h3>
+                <p><strong>Estimate your maximum range:</strong></p>
+                <ul>
+                    <li>Flight Time × Cruise Speed = Theoretical Range</li>
+                    <li>Multiply by 0.7 for safety margin</li>
+                    <li>Example: 20 min × 40 km/h × 0.7 = 9.3 km safe range</li>
+                    <li>Always keep 30% battery for return</li>
+                    <li>Account for headwind on return</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>Long Range Flight Planning</h3>
+                <p><strong>Pre-flight checklist:</strong></p>
+                <ul>
+                    <li>Check full charge: 4.2V per cell</li>
+                    <li>Verify cell balance (within 0.01V)</li>
+                    <li>Test hover current draw</li>
+                    <li>Calculate max range with 30% reserve</li>
+                    <li>Check weather forecast (wind direction crucial)</li>
+                    <li>Plan return route</li>
+                    <li>Set voltage alarms: 3.6V warning, 3.5V return</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>Efficient Cruising Tips</h3>
+                <ul>
+                    <li>Fly at 50-60% throttle (sweet spot)</li>
+                    <li>Maintain consistent altitude</li>
+                    <li>Use gradual turns, avoid hard banks</li>
+                    <li>Fly with wind on outbound leg if possible</li>
+                    <li>Monitor mAh consumed vs. distance</li>
+                    <li>Use GPS return-to-home as backup</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>Long Range Battery Management</h3>
+                <p><strong>During flight:</strong></p>
+                <ul>
+                    <li>Monitor voltage constantly via OSD</li>
+                    <li>Track mAh used (know your capacity)</li>
+                    <li>Start return at 50% capacity used</li>
+                    <li>Factor wind resistance for return</li>
+                    <li>Land with minimum 20% capacity</li>
+                    <li>Never push beyond 3.5V per cell</li>
+                </ul>
+            </div>
+            
+            <div class="card warning">
+                <h3>Long Range Risks</h3>
+                <p><strong>Avoid these mistakes:</strong></p>
+                <ul>
+                    <li>Flying to empty - no reserve for emergencies</li>
+                    <li>Ignoring wind on return trip</li>
+                    <li>No failsafe RTH configured</li>
+                    <li>Flying beyond reliable video range</li>
+                    <li>Not monitoring individual cell voltage</li>
+                    <li>Old/degraded batteries for long flights</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>Extended Flight Battery Care</h3>
+                <ul>
+                    <li>Use batteries with low cycle count (<50)</li>
+                    <li>Allow full cooling between flights</li>
+                    <li>Long flights = more stress on cells</li>
+                    <li>Check IR before important flights</li>
+                    <li>Retire batteries earlier than racing packs</li>
+                    <li>Deep cycling ages batteries faster</li>
+                </ul>
+            </div>
+            
+            <div class="card tip">
+                <h3>Maximizing Range</h3>
+                <ul>
+                    <li>Use larger, efficient props</li>
+                    <li>Remove unnecessary weight (GoPro if not needed)</li>
+                    <li>Fly in optimal temperature (15-25°C)</li>
+                    <li>Smooth flying = longer range</li>
+                    <li>Lower camera angle for cruising</li>
+                    <li>Upgrade to more efficient motors</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div id="travel" class="content-section">
+            <div class="card">
+                <h3>Airline Regulations Overview</h3>
+                <p><strong>General Rules (varies by airline):</strong></p>
+                <ul>
+                    <li>Batteries must be in carry-on luggage (NOT checked)</li>
+                    <li>Up to 100Wh: Generally allowed without approval</li>
+                    <li>100-160Wh: Requires airline approval</li>
+                    <li>Above 160Wh: Prohibited on passenger aircraft</li>
+                    <li>Terminals must be protected from short circuit</li>
+                    <li>Each passenger typically limited to 20 batteries</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>Calculate Your Battery Watt-Hours</h3>
+                <p><strong>Formula: Wh = Voltage × Ah</strong></p>
+                <table class="specs-table">
+                    <tr><td>3S 1500mAh</td><td>11.1V × 1.5Ah = 16.6Wh ✓</td></tr>
+                    <tr><td>4S 2200mAh</td><td>14.8V × 2.2Ah = 32.6Wh ✓</td></tr>
+                    <tr><td>6S 3000mAh</td><td>22.2V × 3.0Ah = 66.6Wh ✓</td></tr>
+                    <tr><td>6S 5000mAh</td><td>22.2V × 5.0Ah = 111Wh ⚠️</td></tr>
+                </table>
+                <p>Most FPV batteries fall well under 100Wh limit</p>
+            </div>
+            
+            <div class="card">
+                <h3>Packing Batteries for Travel</h3>
+                <p><strong>Step-by-step:</strong></p>
+                <ul>
+                    <li><strong>1.</strong> Discharge to storage voltage (3.8V/cell)</li>
+                    <li><strong>2.</strong> Tape or cap all connectors</li>
+                    <li><strong>3.</strong> Place in individual LiPo bags</li>
+                    <li><strong>4.</strong> Pack in hard case or padded bag</li>
+                    <li><strong>5.</strong> Label with Wh rating if asked</li>
+                    <li><strong>6.</strong> Keep documentation handy</li>
+                    <li><strong>7.</strong> Declare at security if questioned</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>Airport Security Tips</h3>
+                <ul>
+                    <li>Be honest and cooperative with TSA</li>
+                    <li>Explain batteries are for hobby drone</li>
+                    <li>Show they are properly protected</li>
+                    <li>Have battery specs ready (Wh calculation)</li>
+                    <li>Separate from drone for easier inspection</li>
+                    <li>Arrive early - inspections take time</li>
+                    <li>Print airline battery policies</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>International Travel Considerations</h3>
+                <ul>
+                    <li>Rules vary by country and airline</li>
+                    <li>Research destination country regulations</li>
+                    <li>Some countries restrict drones entirely</li>
+                    <li>Drone registration may be required</li>
+                    <li>Check both departure and arrival rules</li>
+                    <li>Consider shipping batteries ahead (expensive)</li>
+                </ul>
+            </div>
+            
+            <div class="card warning">
+                <h3>What NOT to Do</h3>
+                <ul>
+                    <li>Never pack batteries in checked luggage</li>
+                    <li>Don't try to hide batteries</li>
+                    <li>Don't pack fully charged</li>
+                    <li>Don't leave connectors exposed</li>
+                    <li>Don't exceed airline quantity limits</li>
+                    <li>Don't travel with damaged batteries</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>Car/Road Trip Battery Transport</h3>
+                <ul>
+                    <li>Store in fireproof container or bag</li>
+                    <li>Keep in climate-controlled area</li>
+                    <li>Don't leave in hot car trunk</li>
+                    <li>Secure to prevent rolling/damage</li>
+                    <li>Storage voltage for long trips</li>
+                    <li>Keep away from metal objects</li>
+                </ul>
+            </div>
+            
+            <div class="card tip">
+                <h3>Travel Battery Kit Essentials</h3>
+                <ul>
+                    <li>Multiple LiPo safety bags</li>
+                    <li>Connector caps or tape</li>
+                    <li>Portable voltage checker</li>
+                    <li>Small balance charger (check voltage allowed)</li>
+                    <li>Battery labels with Wh ratings</li>
+                    <li>Printed airline policies</li>
+                    <li>Multimeter for testing</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>Charging While Traveling</h3>
+                <p><strong>Hotel/Accommodation safety:</strong></p>
+                <ul>
+                    <li>Charge in bathroom (hard surfaces)</li>
+                    <li>Use LiPo bag even in hotel</li>
+                    <li>Never leave charging unattended</li>
+                    <li>Check local voltage (110V vs 220V)</li>
+                    <li>Bring appropriate power adapters</li>
+                    <li>Charge during daytime when awake</li>
+                    <li>Inform hotel staff if they ask</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>Destination Charging Options</h3>
+                <ul>
+                    <li><strong>Car charger:</strong> DC power from 12V car battery</li>
+                    <li><strong>Portable power station:</strong> Jackery, Goal Zero</li>
+                    <li><strong>Solar setup:</strong> For remote locations</li>
+                    <li><strong>Local hobby shops:</strong> May allow charging</li>
+                    <li><strong>Generator:</strong> For extended remote trips</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div id="winter" class="content-section">
+            <div class="card">
+                <h3>Understanding Cold Weather Impact</h3>
+                <p><strong>What happens to batteries in cold:</strong></p>
+                <ul>
+                    <li>Chemical reactions slow down significantly</li>
+                    <li>Internal resistance increases 2-3x</li>
+                    <li>Capacity reduced by 20-50%</li>
+                    <li>Voltage sag becomes more pronounced</li>
+                    <li>Risk of permanent damage below 0°C</li>
+                    <li>Battery may show full voltage but poor performance</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>Temperature Impact Chart</h3>
+                <table class="specs-table">
+                    <tr><td>20°C (68°F)</td><td>100% capacity - Optimal</td></tr>
+                    <tr><td>10°C (50°F)</td><td>90% capacity - Good</td></tr>
+                    <tr><td>5°C (41°F)</td><td>80% capacity - Reduced</td></tr>
+                    <tr><td>0°C (32°F)</td><td>70% capacity - Significant loss</td></tr>
+                    <tr><td>-5°C (23°F)</td><td>50% capacity - High risk</td></tr>
+                    <tr><td>-10°C (14°F)</td><td>30% capacity - Not recommended</td></tr>
+                </table>
+            </div>
+            
+            <div class="card">
+                <h3>Pre-Flight Winter Warming Methods</h3>
+                <p><strong>Option 1: Hand/Body Warmers</strong></p>
+                <ul>
+                    <li>Place battery in insulated pouch with hand warmers</li>
+                    <li>Wait 10-15 minutes to reach 20-25°C</li>
+                    <li>Check temperature before flying</li>
+                    <li>Cost-effective and portable</li>
+                </ul>
+                <p><strong>Option 2: Heated Storage Box</strong></p>
+                <ul>
+                    <li>Dedicated battery warmer box</li>
+                    <li>Maintains 20-25°C temperature</li>
+                    <li>Best for multiple batteries</li>
+                    <li>USB or 12V powered options available</li>
+                </ul>
+                <p><strong>Option 3: Vehicle Heating</strong></p>
+                <ul>
+                    <li>Keep batteries in heated car</li>
+                    <li>Use car's heater vents</li>
+                    <li>Don't place on dashboard in direct sun</li>
+                    <li>Monitor temperature - don't overheat</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>DIY Battery Warmer Setup</h3>
+                <p><strong>Build your own warmer:</strong></p>
+                <ul>
+                    <li><strong>Materials:</strong> Insulated lunch box, hand warmers, thermometer</li>
+                    <li><strong>Step 1:</strong> Line box with foam insulation</li>
+                    <li><strong>Step 2:</strong> Add adhesive hand warmers to inside lid</li>
+                    <li><strong>Step 3:</strong> Place batteries on bottom layer</li>
+                    <li><strong>Step 4:</strong> Monitor with small thermometer</li>
+                    <li><strong>Target:</strong> 20-25°C (68-77°F)</li>
+                    <li><strong>Cost:</strong> Under $20 for complete setup</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>Winter Flying Technique Adjustments</h3>
+                <ul>
+                    <li><strong>Hover Test:</strong> Hover for 30 seconds before aggressive flying</li>
+                    <li><strong>Gradual Throttle:</strong> Slowly increase power - avoid sudden punches</li>
+                    <li><strong>Monitor Voltage:</strong> Check every 30 seconds initially</li>
+                    <li><strong>Reduce Flight Time:</strong> Cut normal time by 30-40%</li>
+                    <li><strong>Higher Landing Voltage:</strong> Land at 3.7V instead of 3.5V</li>
+                    <li><strong>Gentle Flying:</strong> Avoid hard maneuvers until battery warms</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>Active In-Flight Warming</h3>
+                <p><strong>Battery self-warming during flight:</strong></p>
+                <ul>
+                    <li>First 1-2 minutes: Moderate throttle, battery heats from use</li>
+                    <li>Internal resistance creates heat</li>
+                    <li>Performance improves as battery warms</li>
+                    <li>After warm-up: Normal flying possible</li>
+                    <li>Still land earlier than summer flights</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>Post-Flight Winter Care</h3>
+                <ul>
+                    <li>Battery may be cold but cells are warm inside</li>
+                    <li>Don't charge immediately - bring to room temp first</li>
+                    <li>Place in warm (not hot) environment</li>
+                    <li>Wait 30-45 minutes before charging</li>
+                    <li>Never charge frozen batteries</li>
+                    <li>Check for condensation before charging</li>
+                </ul>
+            </div>
+            
+            <div class="card warning">
+                <h3>Winter Battery Dangers</h3>
+                <ul>
+                    <li><strong>Permanent Damage:</strong> Using battery below 0°C can damage cells</li>
+                    <li><strong>Voltage Crash:</strong> Sudden voltage drop can cause flyaway</li>
+                    <li><strong>Condensation:</strong> Moving battery from cold to warm creates moisture</li>
+                    <li><strong>Ice Formation:</strong> Water in connectors can freeze</li>
+                    <li><strong>Brittle Wires:</strong> Cold makes cables stiff and prone to breaking</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>Winter Battery Selection</h3>
+                <p><strong>Best batteries for cold weather:</strong></p>
+                <ul>
+                    <li>Higher C-rating compensates for increased IR</li>
+                    <li>Larger capacity = more thermal mass</li>
+                    <li>Premium brands perform better in cold</li>
+                    <li>Consider dedicated "winter packs"</li>
+                    <li>Avoid using oldest batteries in winter</li>
+                </ul>
+            </div>
+            
+            <div class="card tip">
+                <h3>Winter Flying Checklist</h3>
+                <ul>
+                    <li>✓ Pre-warm batteries to 20-25°C</li>
+                    <li>✓ Bring hand warmers for between flights</li>
+                    <li>✓ Set lower voltage alarms (3.7V warning)</li>
+                    <li>✓ Plan for 30-40% shorter flight time</li>
+                    <li>✓ Keep spare batteries warm in car</li>
+                    <li>✓ Check weather - avoid extreme cold</li>
+                    <li>✓ Bring insulated storage bag</li>
+                    <li>✓ Have backup batteries ready</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div id="myths" class="content-section">
+            <div class="card">
+                <h3>Myth: Storing at Full Charge is Fine</h3>
+                <p><strong>❌ FALSE</strong></p>
+                <ul>
+                    <li><strong>Reality:</strong> Storing at 4.2V/cell degrades batteries rapidly</li>
+                    <li>Causes chemical breakdown and capacity loss</li>
+                    <li>Can lose 20-30% capacity in few months</li>
+                    <li><strong>Truth:</strong> Always store at 3.8V/cell (storage voltage)</li>
+                    <li>Proper storage extends life by 2-3x</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>Myth: Higher C-Rating Always Better</h3>
+                <p><strong>❌ MISLEADING</strong></p>
+                <ul>
+                    <li><strong>Reality:</strong> Only need enough C-rating for your drone</li>
+                    <li>Excessive C-rating adds weight and cost</li>
+                    <li>150C battery won't improve 50C drone</li>
+                    <li><strong>Truth:</strong> Match C-rating to actual amp draw</li>
+                    <li>Add 20% safety margin is sufficient</li>
+                    <li>Focus on quality over inflated numbers</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>Myth: New Batteries Don't Need Break-In</h3>
+                <p><strong>❌ FALSE</strong></p>
+                <ul>
+                    <li><strong>Reality:</strong> First 5 cycles condition the cells</li>
+                    <li>Break-in process optimizes performance</li>
+                    <li>Skipping reduces lifespan by 20-30%</li>
+                    <li><strong>Truth:</strong> Gentle first 5 cycles = better long-term performance</li>
+                    <li>Land higher, avoid aggressive flying initially</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>Myth: Bigger Battery = More Flight Time</h3>
+                <p><strong>⚠️ PARTIALLY TRUE</strong></p>
+                <ul>
+                    <li><strong>Reality:</strong> More capacity = more weight</li>
+                    <li>Weight reduces efficiency</li>
+                    <li>Sweet spot exists for each drone</li>
+                    <li><strong>Truth:</strong> There's an optimal capacity for your setup</li>
+                    <li>Too big actually reduces flight time</li>
+                    <li>Test to find your drone's efficiency peak</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>Myth: Charge Overnight is Safe</h3>
+                <p><strong>❌ DANGEROUS</strong></p>
+                <ul>
+                    <li><strong>Reality:</strong> Never leave charging unattended</li>
+                    <li>Fire risk if charger malfunctions</li>
+                    <li>Overcharging can occur</li>
+                    <li><strong>Truth:</strong> Always monitor charging</li>
+                    <li>Charge during day when awake</li>
+                    <li>Use timer plugs as backup</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>Myth: Discharge to 0V Before Storage</h3>
+                <p><strong>❌ FALSE</strong></p>
+                <ul>
+                    <li><strong>Reality:</strong> 0V is for disposal only</li>
+                    <li>Deep discharge damages cells permanently</li>
+                    <li>Storage voltage is 3.8V per cell</li>
+                    <li><strong>Truth:</strong> Store at 3.7-3.85V per cell</li>
+                    <li>Never discharge below 3.0V unless disposing</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>Myth: Brand Doesn't Matter</h3>
+                <p><strong>❌ FALSE</strong></p>
+                <ul>
+                    <li><strong>Reality:</strong> Quality varies significantly</li>
+                    <li>Cheap batteries: inconsistent, dangerous, short-lived</li>
+                    <li>Unknown brands often lie about specs</li>
+                    <li><strong>Truth:</strong> Reputable brands worth the premium</li>
+                    <li>Better performance, safety, and lifespan</li>
+                    <li>Stick to known manufacturers</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>Myth: Puffed Batteries Can Be Fixed</h3>
+                <p><strong>❌ DANGEROUS</strong></p>
+                <ul>
+                    <li><strong>Reality:</strong> Swelling indicates permanent damage</li>
+                    <li>Gas buildup from chemical breakdown</li>
+                    <li>High fire/explosion risk</li>
+                    <li><strong>Truth:</strong> Dispose immediately and safely</li>
+                    <li>No recovery possible</li>
+                    <li>Never attempt to use puffed battery</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>Myth: Fast Charging Doesn't Hurt Batteries</h3>
+                <p><strong>❌ FALSE</strong></p>
+                <ul>
+                    <li><strong>Reality:</strong> Fast charging generates excess heat</li>
+                    <li>Reduces lifespan by 30-50%</li>
+                    <li>Increases internal resistance faster</li>
+                    <li><strong>Truth:</strong> 1C or slower for longest life</li>
+                    <li>Fast charge only in emergencies</li>
+                    <li>Slow and steady wins the race</li>
+                </ul>
+            </div>
+            
+            <div class="card tip">
+                <h3>Facts Every Pilot Should Know</h3>
+                <ul>
+                    <li>✓ LiPo batteries are NOT toys - handle with care</li>
+                    <li>✓ Temperature is enemy #1 of battery life</li>
+                    <li>✓ Balance charging EVERY time is critical</li>
+                    <li>✓ Cell voltage more important than total voltage</li>
+                    <li>✓ Landing at 20-30% capacity extends life significantly</li>
+                    <li>✓ Age matters as much as cycle count</li>
+                    <li>✓ Quality charger = safe charging</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div id="emergency" class="content-section">
+            <div class="card warning">
+                <h3>Battery Fire Response Plan</h3>
+                <p><strong>Immediate Actions:</strong></p>
+                <ul>
+                    <li><strong>1. Alert:</strong> Warn others nearby immediately</li>
+                    <li><strong>2. Move:</strong> If safe, move battery outdoors with tongs/pliers</li>
+                    <li><strong>3. Contain:</strong> Place in metal container with sand</li>
+                    <li><strong>4. Never:</strong> DO NOT use water on lithium fires</li>
+                    <li><strong>5. Smother:</strong> Use sand, dirt, or Class D extinguisher</li>
+                    <li><strong>6. Distance:</strong> Stay 20+ feet away, toxic smoke</li>
+                    <li><strong>7. Call 911:</strong> For large fires or indoor incidents</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>Emergency Equipment Kit</h3>
+                <p><strong>Keep these on hand:</strong></p>
+                <ul>
+                    <li><strong>Fire Safety:</strong> Metal tongs, fire blanket, sand bucket</li>
+                    <li><strong>Extinguisher:</strong> Class D (metal fire) or ABC</li>
+                    <li><strong>Container:</strong> Metal ammo can for containment</li>
+                    <li><strong>Protection:</strong> Heat-resistant gloves</li>
+                    <li><strong>Ventilation:</strong> Fans to clear smoke</li>
+                    <li><strong>First Aid:</strong> Burns treatment, eye wash</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>Low Voltage Emergency Landing</h3>
+                <p><strong>Battery critically low during flight:</strong></p>
+                <ul>
+                    <li><strong>Step 1:</strong> Reduce throttle immediately to minimum for controlled descent</li>
+                    <li><strong>Step 2:</strong> Find nearest safe landing spot</li>
+                    <li><strong>Step 3:</strong> Disable camera/VTX if possible (save power)</li>
+                    <li><strong>Step 4:</strong> Avoid aggressive inputs</li>
+                    <li><strong>Step 5:</strong> Land ASAP even if not ideal location</li>
+                    <li><strong>Step 6:</strong> Disconnect battery immediately after landing</li>
+                    <li><strong>Step 7:</strong> Check cell voltages - retire if below 3.0V</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>Battery Overheating While Flying</h3>
+                <p><strong>If battery feels extremely hot:</strong></p>
+                <ul>
+                    <li>Land immediately - no exceptions</li>
+                    <li>Reduce throttle to minimum safe level</li>
+                    <li>After landing, place on non-flammable surface</li>
+                    <li>Monitor for swelling or smoke</li>
+                    <li>Let cool naturally - do NOT submerge</li>
+                    <li>Check voltage and resistance after cooling</li>
+                    <li>If damaged, dispose safely</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>Crash With Battery Damage</h3>
+                <p><strong>Post-crash battery assessment:</strong></p>
+                <ul>
+                    <li><strong>Immediate:</strong> Disconnect battery from drone</li>
+                    <li><strong>Inspect:</strong> Check for punctures, dents, tears</li>
+                    <li><strong>Smell Test:</strong> Sweet/chemical smell = internal damage</li>
+                    <li><strong>Voltage:</strong> Check each cell voltage</li>
+                    <li><strong>Temperature:</strong> Feel for hot spots</li>
+                    <li><strong>Decision:</strong> ANY damage = dispose, don't risk it</li>
+                    <li><strong>Safety:</strong> Place damaged battery in LiPo bag outdoors</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>Charger Malfunction Response</h3>
+                <p><strong>If charger acts abnormally:</strong></p>
+                <ul>
+                    <li>Stop charging immediately</li>
+                    <li>Unplug charger from power</li>
+                    <li>Disconnect battery carefully</li>
+                    <li>Move battery to safe location</li>
+                    <li>Check battery temperature and voltage</li>
+                    <li>Don't use charger until verified safe</li>
+                    <li>Test charger with voltage meter</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>Lost Drone with Battery Still Connected</h3>
+                <p><strong>Time-sensitive situation:</strong></p>
+                <ul>
+                    <li><strong>First 6 hours:</strong> Battery likely still safe</li>
+                    <li><strong>6-24 hours:</strong> Voltage dropping, find quickly</li>
+                    <li><strong>24-48 hours:</strong> Risk of over-discharge damage</li>
+                    <li><strong>48+ hours:</strong> Battery likely damaged, fire risk increases</li>
+                    <li><strong>Recovery:</strong> Disconnect immediately when found</li>
+                    <li><strong>Check:</strong> Voltage, swelling, temperature</li>
+                    <li><strong>Action:</strong> If below 3.0V/cell, dispose properly</li>
+                </ul>
+            </div>
+            
+            <div class="card warning">
+                <h3>Signs Battery Will Fail Soon</h3>
+                <ul>
+                    <li>Sudden voltage drops during flight</li>
+                    <li>Battery warm when not in use</li>
+                    <li>Slight puffing (any swelling at all)</li>
+                    <li>Hissing or clicking sounds</li>
+                    <li>Chemical smell even when cool</li>
+                    <li>Discoloration or corrosion on terminals</li>
+                    <li>Voltage won't stabilize after charging</li>
+                </ul>
+                <p><strong>Action: Dispose immediately, don't wait</strong></p>
+            </div>
+            
+            <div class="card">
+                <h3>Emergency Disposal Procedure</h3>
+                <p><strong>Safe disposal of damaged battery:</strong></p>
+                <ul>
+                    <li><strong>Step 1:</strong> Place in LiPo bag or metal container</li>
+                    <li><strong>Step 2:</strong> Take outdoors to safe area</li>
+                    <li><strong>Step 3:</strong> Prepare salt water solution (very salty)</li>
+                    <li><strong>Step 4:</strong> Submerge battery in non-metal container</li>
+                    <li><strong>Step 5:</strong> Leave for 24-48 hours outdoors</li>
+                    <li><strong>Step 6:</strong> Verify 0V with multimeter</li>
+                    <li><strong>Step 7:</strong> Tape terminals, take to e-waste recycling</li>
+                </ul>
+            </div>
+            
+            <div class="card tip">
+                <h3>Emergency Contact Numbers</h3>
+                <ul>
+                    <li><strong>Fire/Medical Emergency:</strong> 911 (US) or local equivalent</li>
+                    <li><strong>Poison Control:</strong> 1-800-222-1222 (US)</li>
+                    <li><strong>CHEMTREC (Chemical Emergency):</strong> 1-800-424-9300</li>
+                    <li>Have addresses of nearest hospital and fire station</li>
+                    <li>Keep battery emergency procedures printed and visible</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div id="upgrade" class="content-section">
+            <div class="card">
+                <h3>When to Upgrade Battery System</h3>
+                <p><strong>Signs you need better batteries:</strong></p>
+                <ul>
+                    <li>Flight time less than 3 minutes</li>
+                    <li>Voltage sag affects performance</li>
+                    <li>Battery gets too hot after flights</li>
+                    <li>Power cuts during aggressive maneuvers</li>
+                    <li>Your batteries are 2+ years old</li>
+                    <li>You've outgrown your current setup</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>Upgrading from 4S to 6S</h3>
+                <p><strong>What you need to change:</strong></p>
+                <ul>
+                    <li><strong>Motors:</strong> Lower KV motors (1600-2000KV for 6S vs 2300-2600KV for 4S)</li>
+                    <li><strong>ESC:</strong> Must support 6S voltage (up to 25.2V)</li>
+                    <li><strong>Batteries:</strong> 6S packs (obviously)</li>
+                    <li><strong>Charger:</strong> Verify can charge 6S</li>
+                    <li><strong>Props:</strong> May need different sizes</li>
+                    <li><strong>Frame:</strong> Check battery compartment fits</li>
+                </ul>
+                <p><strong>Benefits:</strong> More power, smoother delivery, better efficiency</p>
+                <p><strong>Cost:</strong> $150-300 for complete upgrade</p>
+            </div>
+            
+            <div class="card">
+                <h3>Upgrading Battery Capacity</h3>
+                <p><strong>Going from 1300mAh to 1800mAh:</strong></p>
+                <ul>
+                    <li><strong>Check weight:</strong> Will add ~70-80g</li>
+                    <li><strong>Verify fit:</strong> Larger physical dimensions</li>
+                    <li><strong>Test flight:</strong> One pack first to check handling</li>
+                    <li><strong>Adjust PIDs:</strong> May need tuning for added weight</li>
+                    <li><strong>Landing gear:</strong> Ensure can support weight</li>
+                    <li><strong>Expected gain:</strong> 30-40% more flight time</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>Premium Battery Upgrade Worth It?</h3>
+                <p><strong>Budget vs Premium comparison:</strong></p>
+                <table class="specs-table">
+                    <tr><td>Budget ($20)</td><td>80 cycles, inconsistent, heavy</td></tr>
+                    <tr><td>Mid-range ($30)</td><td>150 cycles, reliable, good value</td></tr>
+                    <tr><td>Premium ($50)</td><td>250+ cycles, best performance</td></tr>
+                </table>
+                <p><strong>Cost per cycle:</strong></p>
+                <ul>
+                    <li>Budget: $0.25 per flight</li>
+                    <li>Mid-range: $0.20 per flight</li>
+                    <li>Premium: $0.20 per flight</li>
+                </ul>
+                <p><strong>Verdict:</strong> Premium worth it for serious pilots</p>
+            </div>
+            
+            <div class="card">
+                <h3>Upgrading Your Charger</h3>
+                <p><strong>When to upgrade:</strong></p>
+                <ul>
+                    <li>Current charger only charges one battery</li>
+                    <li>Need faster turnaround for flying sessions</li>
+                    <li>Want storage voltage feature</li>
+                    <li>Need more accurate balancing</li>
+                </ul>
+                <p><strong>Recommended upgrade path:</strong></p>
+                <ul>
+                    <li><strong>Basic:</strong> $30-50 single-port smart charger</li>
+                    <li><strong>Mid:</strong> $80-120 dual-port 200W charger</li>
+                    <li><strong>Pro:</strong> $150-300 quad-port 400W+ system</li>
+                    <li><strong>Parallel board:</strong> $15-30 for multi-battery charging</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>Building a Battery Collection</h3>
+                <p><strong>Progressive battery acquisition:</strong></p>
+                <ul>
+                    <li><strong>Stage 1 - Beginner:</strong> 3 matched batteries ($60-90)</li>
+                    <li><strong>Stage 2 - Regular:</strong> Add 3 more, total 6 ($120-180)</li>
+                    <li><strong>Stage 3 - Dedicated:</strong> Add variety (racing, freestyle, long-range)</li>
+                    <li><strong>Stage 4 - Serious:</strong> 10-15 batteries, rotating usage</li>
+                    <li>Buy in bulk when possible (5-10% discount)</li>
+                    <li>Wait for sales (Black Friday, hobby shop promos)</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>Connector Upgrade Options</h3>
+                <p><strong>Upgrading from XT60 to XT90:</strong></p>
+                <ul>
+                    <li><strong>Why:</strong> Lower resistance, higher current capacity</li>
+                    <li><strong>When:</strong> Running 6S or high-current setups (100A+)</li>
+                    <li><strong>Cost:</strong> $15-20 for connectors + soldering</li>
+                    <li><strong>Benefit:</strong> 2-3% efficiency gain, less heat</li>
+                </ul>
+                <p><strong>Alternative: Deans/T-plug</strong></p>
+                <ul>
+                    <li>Lower profile than XT60</li>
+                    <li>Similar current capacity</li>
+                    <li>More secure connection</li>
+                    <li>Harder to solder (requires skill)</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>Adding Battery Telemetry</h3>
+                <p><strong>Smart battery monitoring upgrades:</strong></p>
+                <ul>
+                    <li><strong>Basic:</strong> Voltage sensor ($5-10)</li>
+                    <li><strong>Better:</strong> Current sensor ($10-20)</li>
+                    <li><strong>Advanced:</strong> Smart battery system ($30-50)</li>
+                    <li><strong>Features to add:</strong></li>
+                    <li>- Real-time voltage per cell</li>
+                    <li>- mAh consumed tracking</li>
+                    <li>- Current draw monitoring</li>
+                    <li>- Temperature sensing</li>
+                    <li>- Integration with OSD</li>
+                </ul>
+            </div>
+            
+            <div class="card tip">
+                <h3>Upgrade Priority Guide</h3>
+                <p><strong>Order of importance:</strong></p>
+                <ul>
+                    <li><strong>1. Replace old/damaged batteries</strong> - Safety first</li>
+                    <li><strong>2. Upgrade charger</strong> - Better charging = longer battery life</li>
+                    <li><strong>3. Add more batteries</strong> - More flight time per session</li>
+                    <li><strong>4. Premium batteries</strong> - Better performance and longevity</li>
+                    <li><strong>5. Voltage to 6S</strong> - If your flying demands it</li>
+                    <li><strong>6. Telemetry system</strong> - Better monitoring</li>
+                    <li><strong>7. Connector upgrade</strong> - Marginal gains</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>Budget Upgrade Strategy</h3>
+                <p><strong>Maximize value on limited budget:</strong></p>
+                <ul>
+                    <li><strong>Month 1:</strong> Buy quality charger ($80-100)</li>
+                    <li><strong>Month 2:</strong> Add 3 mid-range batteries ($90)</li>
+                    <li><strong>Month 3:</strong> Add parallel charging board ($20)</li>
+                    <li><strong>Month 4:</strong> Add 3 more batteries ($90)</li>
+                    <li><strong>Month 5:</strong> Buy 2 premium packs for racing ($100)</li>
+                    <li><strong>Total:</strong> $400 over 5 months = complete setup</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div id="micro" class="content-section">
+            <div class="card">
+                <h3>Micro Drone Battery Basics</h3>
+                <p><strong>What makes micro batteries different:</strong></p>
+                <ul>
+                    <li>Much smaller capacity: 250-500mAh typical</li>
+                    <li>Lower cell count: 1S-2S most common</li>
+                    <li>Different connectors: PH2.0, JST, BT2.0</li>
+                    <li>Lighter weight: 5-20g per battery</li>
+                    <li>Shorter flight time: 2-4 minutes</li>
+                    <li>More delicate - handle with extra care</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>Popular Micro Battery Sizes</h3>
+                <table class="specs-table">
+                    <tr><td>1S 300mAh</td><td>Tiny Whoop, indoor micro (2-3 min)</td></tr>
+                    <tr><td>1S 450mAh</td><td>65mm whoops (3-4 min)</td></tr>
+                    <tr><td>2S 300mAh</td><td>75mm micro racers (2-3 min)</td></tr>
+                    <tr><td>2S 450mAh</td><td>85mm toothpicks (3-4 min)</td></tr>
+                    <tr><td>3S 450mAh</td><td>95mm micro quads (2-3 min)</td></tr>
+                    <tr><td>4S 450mAh</td><td>3" cinewhoops (3-4 min)</td></tr>
+                </table>
+            </div>
+            
+            <div class="card">
+                <h3>Micro Battery Connectors</h3>
+                <p><strong>Common micro connectors:</strong></p>
+                <ul>
+                    <li><strong>PH2.0:</strong> Most common, 2-pin, easy to unplug</li>
+                    <li><strong>JST:</strong> Older standard, still widely used</li>
+                    <li><strong>BT2.0:</strong> Low resistance, better performance</li>
+                    <li><strong>mCPX:</strong> Used on some micro helis/drones</li>
+                    <li><strong>Molex Pico:</strong> Very small, delicate</li>
+                </ul>
+                <p>Always match connector type to your drone!</p>
+            </div>
+            
+            <div class="card">
+                <h3>Charging Micro Batteries</h3>
+                <p><strong>Special considerations:</strong></p>
+                <ul>
+                    <li>Use lower charge rates: 0.5-1C maximum</li>
+                    <li>Example: 300mAh battery = charge at 0.3A max</li>
+                    <li>Parallel charging boards save time (charge 6 at once)</li>
+                    <li>USB chargers convenient but slow</li>
+                    <li>Balance charging still important</li>
+                    <li>Monitor closely - small batteries heat quickly</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>Micro Battery Care Tips</h3>
+                <ul>
+                    <li>More fragile than full-size batteries</li>
+                    <li>Avoid crushing or bending wires</li>
+                    <li>Store with velcro/tape to prevent shorts</li>
+                    <li>Connectors wear out faster - inspect regularly</li>
+                    <li>Replace after 50-80 cycles (shorter life)</li>
+                    <li>Keep extras on hand - they're inexpensive</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>Indoor Flying with Micros</h3>
+                <p><strong>Battery management indoors:</strong></p>
+                <ul>
+                    <li>Room temperature ideal for micro batteries</li>
+                    <li>Quick charge turnaround (10-15 minutes)</li>
+                    <li>Have 6-10 batteries for continuous flying</li>
+                    <li>Land at 3.5V for 1S, 7.0V for 2S</li>
+                    <li>Rotate batteries to extend overall life</li>
+                </ul>
+            </div>
+            
+            <div class="card tip">
+                <h3>Best Micro Battery Brands</h3>
+                <ul>
+                    <li><strong>Premium:</strong> CNHL, GNB, Tattu</li>
+                    <li><strong>Mid-range:</strong> BetaFPV, URUAV, Emax</li>
+                    <li><strong>Budget:</strong> GoolRC, Zeee (check reviews)</li>
+                    <li>Buy in bulk packs (10-20) for best value</li>
+                    <li>Expected cost: $3-8 per battery</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>Parallel Charging Setup</h3>
+                <p><strong>Charge multiple micros at once:</strong></p>
+                <ul>
+                    <li>Use parallel charging board (6-port common)</li>
+                    <li>All batteries must be same cell count</li>
+                    <li>Check voltage before connecting (within 0.1V)</li>
+                    <li>Total capacity = sum of all batteries</li>
+                    <li>Example: 6× 300mAh = charge at 1.8A for 1C</li>
+                    <li>Saves massive time vs. charging individually</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div id="cinema" class="content-section">
+            <div class="card">
+                <h3>Cinematic Drone Battery Priorities</h3>
+                <p><strong>What matters for smooth footage:</strong></p>
+                <ul>
+                    <li><strong>Capacity over power:</strong> 2000-3500mAh preferred</li>
+                    <li><strong>Smooth power delivery:</strong> Avoid voltage spikes</li>
+                    <li><strong>Consistent performance:</strong> Quality brands essential</li>
+                    <li><strong>Weight acceptable:</strong> Stability more important</li>
+                    <li><strong>Moderate C-rating:</strong> 50-75C sufficient</li>
+                    <li><strong>Long flight time:</strong> 8-15 minutes target</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>Recommended Cinema Battery Specs</h3>
+                <p><strong>5-7 inch cinewhoop/cinematic builds:</strong></p>
+                <ul>
+                    <li><strong>Capacity:</strong> 1800-2500mAh</li>
+                    <li><strong>Configuration:</strong> 4S or 6S</li>
+                    <li><strong>C-Rating:</strong> 60-80C</li>
+                    <li><strong>Weight:</strong> 200-280g</li>
+                    <li><strong>Connector:</strong> XT60 standard</li>
+                    <li><strong>Flight Time:</strong> 8-12 minutes smooth flying</li>
+                </ul>
+                <p><strong>Popular choices:</strong> Tattu 4S 2300mAh, CNHL 6S 2200mAh</p>
+            </div>
+            
+            <div class="card">
+                <h3>Battery Selection for Camera Work</h3>
+                <ul>
+                    <li>Prioritize brands with consistent cells</li>
+                    <li>Avoid high voltage sag (ruins footage stability)</li>
+                    <li>Test multiple packs - use best for paid work</li>
+                    <li>Higher capacity = more stable voltage curve</li>
+                    <li>Premium batteries worth investment for clients</li>
+                    <li>Keep voltage above 3.6V/cell during shots</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>Managing Multiple Takes</h3>
+                <p><strong>Professional workflow:</strong></p>
+                <ul>
+                    <li>Bring 6-8 batteries minimum for shoot</li>
+                    <li>Label batteries: A (best), B (good), C (practice)</li>
+                    <li>Use "A" packs for important shots only</li>
+                    <li>Monitor voltage constantly during takes</li>
+                    <li>Land with 25-30% capacity remaining</li>
+                    <li>Allow full cooling between flights</li>
+                    <li>Have backup charger on location</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>Flight Time Calculation for Shoots</h3>
+                <p><strong>Planning your battery needs:</strong></p>
+                <ul>
+                    <li>Estimate 70% of max flight time for working time</li>
+                    <li>Example: 10 min max = 7 min usable footage time</li>
+                    <li>Account for positioning, retakes, hovering</li>
+                    <li>Multiply batteries needed by 1.5 for safety</li>
+                    <li>Cold weather? Add 30% more batteries</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>On-Location Charging Strategy</h3>
+                <ul>
+                    <li>Portable power station essential (Jackery, etc.)</li>
+                    <li>Dual-port charger for faster turnaround</li>
+                    <li>Charge during client setup/breaks</li>
+                    <li>Keep batteries warm in cold locations</li>
+                    <li>Car charging as backup option</li>
+                    <li>Never compromise safety for timeline</li>
+                </ul>
+            </div>
+            
+            <div class="card tip">
+                <h3>Pro Cinematographer Tips</h3>
+                <ul>
+                    <li>Reserve fresh batteries for "money shots"</li>
+                    <li>Smooth flying = better efficiency = longer shots</li>
+                    <li>Test all batteries before client work</li>
+                    <li>Carry insurance batteries (2-3 extra)</li>
+                    <li>Log battery performance per pack</li>
+                    <li>Retire batteries at 100-150 cycles for pro work</li>
+                    <li>Cold weather shoots = pre-warm batteries</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>Battery-Related Shot Planning</h3>
+                <p><strong>Maximize your flight time:</strong></p>
+                <ul>
+                    <li>Plan shot sequence to minimize travel</li>
+                    <li>Group nearby shots together per battery</li>
+                    <li>Start with wide establishing shots (use less power)</li>
+                    <li>Save aggressive moves for fresh batteries</li>
+                    <li>Monitor mAh consumed vs. remaining shots</li>
+                    <li>Always keep landing reserve (20-30%)</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div id="diy" class="content-section">
+            <div class="card warning">
+                <h3>DIY Safety Warning</h3>
+                <p><strong>⚠️ CRITICAL: Battery modifications are dangerous</strong></p>
+                <ul>
+                    <li>Improper work can cause fires or explosions</li>
+                    <li>Only attempt if you have proper skills and tools</li>
+                    <li>Work in well-ventilated area with fire safety equipment</li>
+                    <li>Never modify damaged or swollen batteries</li>
+                    <li>When in doubt, buy new - not worth the risk</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>Connector Replacement</h3>
+                <p><strong>Most common DIY modification:</strong></p>
+                <ul>
+                    <li><strong>Tools needed:</strong> Soldering iron (60W+), solder, wire cutters, heat shrink</li>
+                    <li><strong>Step 1:</strong> Discharge battery to storage voltage (3.8V/cell)</li>
+                    <li><strong>Step 2:</strong> Cut old connector, one wire at a time</li>
+                    <li><strong>Step 3:</strong> Strip wire 3-4mm</li>
+                    <li><strong>Step 4:</strong> Tin both wire and new connector</li>
+                    <li><strong>Step 5:</strong> Solder quickly (under 3 seconds per joint)</li>
+                    <li><strong>Step 6:</strong> Cover with heat shrink immediately</li>
+                    <li><strong>Step 7:</strong> Test polarity before connecting to drone</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>Balance Lead Extensions</h3>
+                <p><strong>When you need more reach:</strong></p>
+                <ul>
+                    <li>Useful for batteries deep in frame</li>
+                    <li>Buy pre-made extensions (safer than DIY)</li>
+                    <li>Keep extensions under 6 inches</li>
+                    <li>Secure to prevent snagging</li>
+                    <li>Check for damage regularly</li>
+                    <li>Never use damaged balance leads</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>Battery Strap/Padding Mods</h3>
+                <p><strong>Simple improvements:</strong></p>
+                <ul>
+                    <li><strong>Anti-slip pads:</strong> Prevent battery movement</li>
+                    <li><strong>Foam padding:</strong> Protects battery in crashes</li>
+                    <li><strong>Velcro straps:</strong> Quick battery changes</li>
+                    <li><strong>Heat shields:</strong> Protect from hot components</li>
+                    <li><strong>Balance lead holders:</strong> Keep wires tidy</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>Building Custom Battery Packs</h3>
+                <p><strong>Advanced: combining cells (NOT RECOMMENDED for beginners)</strong></p>
+                <ul>
+                    <li>Requires spot welder (never solder directly to cells)</li>
+                    <li>Cells must be perfectly matched</li>
+                    <li>Need battery management system (BMS)</li>
+                    <li>Proper insulation critical</li>
+                    <li>Risk: high - only for experts</li>
+                    <li>Recommendation: Buy pre-made packs instead</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>Wire Gauge Upgrades</h3>
+                <p><strong>Reducing resistance:</strong></p>
+                <ul>
+                    <li>Thicker wire = lower resistance = less voltage drop</li>
+                    <li>Standard: 14AWG for most applications</li>
+                    <li>Upgrade: 12AWG for high current (100A+)</li>
+                    <li>Keep wire length minimal</li>
+                    <li>Use quality silicone wire (flexible)</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>DIY Battery Voltage Checker</h3>
+                <p><strong>Build your own tester:</strong></p>
+                <ul>
+                    <li>Components: LED display module, balance connector</li>
+                    <li>Cost: $5-10 to build</li>
+                    <li>Shows individual cell voltages</li>
+                    <li>Portable and useful in field</li>
+                    <li>Tutorials available online</li>
+                </ul>
+            </div>
+            
+            <div class="card tip">
+                <h3>Tools Every DIY Pilot Needs</h3>
+                <ul>
+                    <li>Quality soldering iron (TS100 or similar)</li>
+                    <li>60/40 or 63/37 rosin core solder</li>
+                    <li>Heat shrink assortment</li>
+                    <li>Wire strippers (20-12 AWG)</li>
+                    <li>Multimeter with voltage checker</li>
+                    <li>Heat gun or lighter for shrink tubing</li>
+                    <li>Helping hands/PCB holder</li>
+                    <li>Safety glasses and fire extinguisher</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>Repairing Battery Leads</h3>
+                <p><strong>When wires get damaged:</strong></p>
+                <ul>
+                    <li>Cut damaged section completely</li>
+                    <li>Strip and re-solder cleanly</li>
+                    <li>Use heat shrink for insulation</li>
+                    <li>If damage near cell, retire battery</li>
+                    <li>Don't repair if wire too short</li>
+                    <li>Test thoroughly before flight</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div id="testing" class="content-section">
+            <div class="card">
+                <h3>Why Test Your Batteries</h3>
+                <p><strong>Regular testing identifies issues early:</strong></p>
+                <ul>
+                    <li>Detect degradation before it causes crashes</li>
+                    <li>Compare performance across battery sets</li>
+                    <li>Verify advertised specifications</li>
+                    <li>Track health over time</li>
+                    <li>Identify which batteries for which purpose</li>
+                    <li>Maximize safety and performance</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>Internal Resistance Testing</h3>
+                <p><strong>Most important health indicator:</strong></p>
+                <ul>
+                    <li><strong>Equipment needed:</strong> Charger with IR function or dedicated IR meter</li>
+                    <li><strong>When to test:</strong> Every 25 cycles or monthly</li>
+                    <li><strong>How:</strong> Use charger's IR test mode</li>
+                    <li><strong>Record:</strong> IR value for each cell</li>
+                    <li><strong>Compare:</strong> Against previous tests and other batteries</li>
+                </ul>
+                <p><strong>Healthy values:</strong></p>
+                <table class="specs-table">
+                    <tr><td>New battery</td><td>3-10 mΩ per cell</td></tr>
+                    <tr><td>Good health</td><td>10-20 mΩ per cell</td></tr>
+                    <tr><td>Degrading</td><td>20-40 mΩ per cell</td></tr>
+                    <tr><td>Replace</td><td>40+ mΩ per cell</td></tr>
+                </table>
+            </div>
+            
+            <div class="card">
+                <h3>Capacity Testing</h3>
+                <p><strong>Verify actual vs. advertised capacity:</strong></p>
+                <ul>
+                    <li><strong>Method 1 - Charger:</strong> Use discharge function</li>
+                    <li>Fully charge battery to 4.2V/cell</li>
+                    <li>Run discharge cycle on charger</li>
+                    <li>Charger displays actual capacity</li>
+                    <li><strong>Method 2 - Flight test:</strong></li>
+                    <li>Fly and monitor mAh consumed</li>
+                    <li>Compare to rated capacity</li>
+                    <li>80%+ of rated = good, 60-80% = degraded</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>Voltage Sag Testing</h3>
+                <p><strong>Check performance under load:</strong></p>
+                <ul>
+                    <li>Fully charge battery</li>
+                    <li>Record resting voltage (should be 4.2V/cell)</li>
+                    <li>Full throttle punch test for 3-5 seconds</li>
+                    <li>Check voltage immediately</li>
+                    <li>Good battery: drops 0.5-1.0V per cell</li>
+                    <li>Degraded: drops 1.5V+ per cell</li>
+                    <li>Repeat after battery rests 30 seconds</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>Cell Balance Testing</h3>
+                <p><strong>Ensure cells are matched:</strong></p>
+                <ul>
+                    <li>Check voltage of each cell individually</li>
+                    <li>After full charge: All should be 4.18-4.22V</li>
+                    <li>After storage charge: All should be 3.78-3.85V</li>
+                    <li>Maximum difference: 0.03V is acceptable</li>
+                    <li>0.05V+ difference: Run balance charge</li>
+                    <li>0.10V+ after balance: Retire battery</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>Temperature Testing</h3>
+                <p><strong>Monitor heat during use:</strong></p>
+                <ul>
+                    <li><strong>Tools:</strong> Infrared thermometer or thermal camera</li>
+                    <li>Check temp immediately after flight</li>
+                    <li>Normal: 40-50°C (104-122°F)</li>
+                    <li>Warm: 50-60°C (122-140°F)</li>
+                    <li>Hot: 60-70°C (140-158°F) - concerning</li>
+                    <li>Very hot: 70°C+ (158°F+) - stop using</li>
+                    <li>Check hot spots (uneven heating = problem)</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>Creating a Battery Log</h3>
+                <p><strong>Track battery health over time:</strong></p>
+                <ul>
+                    <li>Label each battery with unique ID</li>
+                    <li>Record purchase date</li>
+                    <li>Log cycle count after each use</li>
+                    <li>Note IR readings every 25 cycles</li>
+                    <li>Track capacity test results</li>
+                    <li>Document any issues or crashes</li>
+                    <li>Use spreadsheet or notebook</li>
+                </ul>
+            </div>
+            
+            <div class="card tip">
+                <h3>Testing Schedule Recommendation</h3>
+                <ul>
+                    <li><strong>After purchase:</strong> IR and capacity baseline test</li>
+                    <li><strong>Every 25 cycles:</strong> IR test</li>
+                    <li><strong>Every 50 cycles:</strong> Full capacity test</li>
+                    <li><strong>Before important events:</strong> Complete battery health check</li>
+                    <li><strong>After crashes:</strong> Visual inspection + voltage test</li>
+                    <li><strong>Monthly (if unused):</strong> Voltage check</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>Interpreting Test Results</h3>
+                <p><strong>Decision matrix:</strong></p>
+                <table class="specs-table">
+                    <tr><td>All tests good</td><td>Continue normal use</td></tr>
+                    <tr><td>IR elevated 50%</td><td>Use for practice only</td></tr>
+                    <tr><td>Capacity below 70%</td><td>Retire from active use</td></tr>
+                    <tr><td>Cell imbalance</td><td>Balance charge, retest</td></tr>
+                    <tr><td>Excessive heat</td><td>Reduce C-rating demands</td></tr>
+                    <tr><td>Multiple failures</td><td>Dispose safely</td></tr>
+                </table>
+            </div>
+            
+            <div class="card">
+                <h3>Advanced: C-Rating Verification</h3>
+                <p><strong>Test advertised C-rating claims:</strong></p>
+                <ul>
+                    <li>Requires current meter or watt meter</li>
+                    <li>Full throttle: measure actual amps drawn</li>
+                    <li>Calculate: Amps / Capacity (Ah) = Actual C</li>
+                    <li>Example: 75A draw, 1.5Ah battery = 50C actual</li>
+                    <li>Compare to advertised rating</li>
+                    <li>Good brands: 80-100% of advertised</li>
+                    <li>Budget brands: Often 50-70% of advertised</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div id="competition" class="content-section">
+            <div class="card">
+                <h3>Competition Battery Requirements</h3>
+                <p><strong>What race organizers typically require:</strong></p>
+                <ul>
+                    <li>Maximum capacity limits (often 1500-1800mAh)</li>
+                    <li>Specific voltage limits (4S or 6S classes)</li>
+                    <li>LiPo safety bags mandatory in pit area</li>
+                    <li>Fire extinguisher accessible</li>
+                    <li>No visible damage or swelling</li>
+                    <li>Proper labeling with pilot name/number</li>
+                    <li>Voltage checker for tech inspection</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>Competition Day Battery Setup</h3>
+                <p><strong>Professional race prep:</strong></p>
+                <ul>
+                    <li><strong>Quantity:</strong> Minimum 8-12 batteries per race day</li>
+                    <li><strong>Organization:</strong> Separate charged/discharged bags</li>
+                    <li><strong>Labeling:</strong> Clear ID numbers on each pack</li>
+                    <li><strong>Testing:</strong> Pre-test all batteries week before</li>
+                    <li><strong>Selection:</strong> Rank batteries A/B/C by performance</li>
+                    <li><strong>Spares:</strong> 2-3 emergency backup batteries</li>
+                    <li><strong>Charging:</strong> Dual-port charger minimum</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>Battery Strategy by Race Format</h3>
+                <p><strong>MultiGP Style (3-4 heats):</strong></p>
+                <ul>
+                    <li>6-8 batteries sufficient</li>
+                    <li>Use best batteries for qualifiers</li>
+                    <li>Fresh pack for each heat</li>
+                    <li>30+ minute charge time between rounds</li>
+                </ul>
+                <p><strong>Rotorcross/Endurance:</strong></p>
+                <ul>
+                    <li>10-15 batteries needed</li>
+                    <li>Fast charging essential</li>
+                    <li>Capacity matters more than weight</li>
+                    <li>Have pit crew manage batteries</li>
+                </ul>
+                <p><strong>Time Trial:</strong></p>
+                <ul>
+                    <li>4-6 batteries adequate</li>
+                    <li>Use freshest battery for official run</li>
+                    <li>Practice runs on older packs</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>Pit Area Battery Management</h3>
+                <ul>
+                    <li>Designate charging area away from traffic</li>
+                    <li>Never leave charging unattended</li>
+                    <li>Use fireproof charging bags/cases</li>
+                    <li>Keep discharged batteries separate</li>
+                    <li>Monitor all batteries actively charging</li>
+                    <li>Have voltage checker easily accessible</li>
+                    <li>Fire extinguisher within reach</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>Between-Heat Quick Charge</h3>
+                <p><strong>Fast turnaround strategy:</strong></p>
+                <ul>
+                    <li>Land at 3.5V minimum (don't fully drain)</li>
+                    <li>Let battery rest 5 minutes before charging</li>
+                    <li>Charge at 1.5-2C if battery supports it</li>
+                    <li>Monitor temperature continuously</li>
+                    <li>Stop charging if battery gets hot (>50°C)</li>
+                    <li>Ideally rotate batteries vs. fast charging same pack</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>Pre-Competition Checklist</h3>
+                <p><strong>Night before race:</strong></p>
+                <ul>
+                    <li>✓ All batteries storage charged (3.8V/cell)</li>
+                    <li>✓ IR test completed on race packs</li>
+                    <li>✓ Batteries labeled and organized</li>
+                    <li>✓ Charging equipment tested</li>
+                    <li>✓ LiPo bags packed</li>
+                    <li>✓ Voltage checker batteries fresh</li>
+                </ul>
+                <p><strong>Morning of race:</strong></p>
+                <ul>
+                    <li>✓ Full charge 4-6 "hero" batteries</li>
+                    <li>✓ Verify voltage on each cell</li>
+                    <li>✓ Pack fire safety equipment</li>
+                    <li>✓ Bring backup charger</li>
+                </ul>
+            </div>
+            
+            <div class="card warning">
+                <h3>Competition Disqualification Risks</h3>
+                <ul>
+                    <li>Using over-capacity batteries for class</li>
+                    <li>Damaged or swollen batteries at tech inspection</li>
+                    <li>Unsafe charging practices in pit</li>
+                    <li>Battery fire or safety incident</li>
+                    <li>Exceeding voltage limits for class</li>
+                    <li>Improper battery disposal on site</li>
+                </ul>
+            </div>
+            
+            <div class="card tip">
+                <h3>Pro Racer Battery Secrets</h3>
+                <ul>
+                    <li>Buy batteries 2-3 weeks before race (break-in time)</li>
+                    <li>Use matched sets (same brand, batch, age)</li>
+                    <li>Keep "competition only" batteries (low cycle count)</li>
+                    <li>Fresh batteries for finals - worn for practice</li>
+                    <li>Test all batteries at race voltage/conditions</li>
+                    <li>Bring 50% more batteries than you think needed</li>
+                    <li>Have teammate/pit crew dedicated to battery management</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>Post-Competition Battery Care</h3>
+                <ul>
+                    <li>Discharge to storage voltage same day</li>
+                    <li>Inspect all batteries for damage</li>
+                    <li>Record cycle counts and performance notes</li>
+                    <li>Retire heavily used competition batteries</li>
+                    <li>Store properly before next event</li>
+                    <li>Re-test IR before next competition</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div id="budget" class="content-section">
+            <div class="card">
+                <h3>Budget-Friendly Battery Strategy</h3>
+                <p><strong>Maximize value without compromising safety:</strong></p>
+                <ul>
+                    <li>Focus on mid-range brands (best value/performance)</li>
+                    <li>Buy in bulk when possible (5-10 pack discounts)</li>
+                    <li>Wait for sales (Black Friday, holiday promos)</li>
+                    <li>Join group buys in FPV communities</li>
+                    <li>Proper care extends lifespan = less replacement</li>
+                    <li>Never compromise safety for price</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>Cost Per Flight Analysis</h3>
+                <p><strong>True cost breakdown:</strong></p>
+                <table class="specs-table">
+                    <tr><td>Ultra Budget ($15)</td><td>50 cycles = $0.30/flight</td></tr>
+                    <tr><td>Budget ($22)</td><td>80 cycles = $0.28/flight</td></tr>
+                    <tr><td>Mid-range ($32)</td><td>150 cycles = $0.21/flight</td></tr>
+                    <tr><td>Premium ($55)</td><td>250 cycles = $0.22/flight</td></tr>
+                </table>
+                <p><strong>Verdict:</strong> Mid-range offers best value, premium for serious pilots</p>
+            </div>
+            
+            <div class="card">
+                <h3>When to Buy Budget vs Premium</h3>
+                <p><strong>Budget batteries good for:</strong></p>
+                <ul>
+                    <li>Learning and practice flights</li>
+                    <li>Backup/emergency packs</li>
+                    <li>Low-performance setups (cruise/AP)</li>
+                    <li>Testing new drones</li>
+                </ul>
+                <p><strong>Premium batteries worth it for:</strong></p>
+                <ul>
+                    <li>Racing and competition</li>
+                    <li>Professional cinematography</li>
+                    <li>High-performance builds</li>
+                    <li>Long-term investment (200+ cycles)</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>Extending Battery Lifespan</h3>
+                <p><strong>Free ways to double battery life:</strong></p>
+                <ul>
+                    <li>Store at 3.8V (not full charge)</li>
+                    <li>Land at 20-30% capacity (not empty)</li>
+                    <li>Charge at 1C or slower</li>
+                    <li>Keep batteries cool during use</li>
+                    <li>Balance charge every time</li>
+                    <li>Rotate battery usage evenly</li>
+                    <li>Avoid extreme temperatures</li>
+                </ul>
+                <p><strong>Impact:</strong> Can increase cycles from 100 to 200+</p>
+            </div>
+            
+            <div class="card">
+                <h3>Smart Shopping Strategies</h3>
+                <ul>
+                    <li><strong>Subscribe to deal alerts:</strong> RCGroups, FPV communities</li>
+                    <li><strong>Compare prices:</strong> Check 3-4 vendors before buying</li>
+                    <li><strong>Shipping costs:</strong> Factor into total price</li>
+                    <li><strong>Bulk discounts:</strong> 10-pack often 15-20% cheaper</li>
+                    <li><strong>Flash sales:</strong> Set price alerts on favorite batteries</li>
+                    <li><strong>Seasonal patterns:</strong> Best deals Nov-Dec, Chinese New Year</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>DIY Cost Savings</h3>
+                <ul>
+                    <li>Replace connectors instead of batteries ($2 vs $30)</li>
+                    <li>Repair damaged wires (if safe to do so)</li>
+                    <li>Build parallel charging board ($10 DIY vs $30 retail)</li>
+                    <li>Use timer plugs to prevent overcharging</li>
+                    <li>Make your own LiPo storage box (ammo can + sand)</li>
+                    <li>Create battery labels/organizers at home</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>Budget Battery Brands That Don't Suck</h3>
+                <p><strong>Best value brands (tested by community):</strong></p>
+                <ul>
+                    <li><strong>CNHL:</strong> Excellent price/performance ratio</li>
+                    <li><strong>Zeee:</strong> Budget option with decent quality</li>
+                    <li><strong>Gens Ace:</strong> Mid-range, reliable</li>
+                    <li><strong>Turnigy:</strong> Long-standing budget brand</li>
+                    <li><strong>URUAV:</strong> Good for micro batteries</li>
+                </ul>
+                <p>Avoid: Unknown Alibaba brands, suspiciously cheap packs</p>
+            </div>
+            
+            <div class="card tip">
+                <h3>$100 Budget Starter Pack</h3>
+                <ul>
+                    <li><strong>Batteries:</strong> 4× mid-range 1300mAh 4S ($70)</li>
+                    <li><strong>Charger:</strong> Basic balance charger ($25)</li>
+                    <li><strong>Accessories:</strong> LiPo bag, voltage checker ($5)</li>
+                    <li><strong>Total:</strong> $100 - complete starting setup</li>
+                    <li>Upgrade charger later, batteries are priority</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>Free Battery Resources</h3>
+                <ul>
+                    <li><strong>Reddit r/Multicopter:</strong> Battery reviews and deals</li>
+                    <li><strong>RCGroups:</strong> In-depth battery discussions</li>
+                    <li><strong>YouTube:</strong> Battery tests and comparisons</li>
+                    <li><strong>Discord communities:</strong> Real-time deal alerts</li>
+                    <li><strong>Local clubs:</strong> Group buys and knowledge sharing</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>Hidden Costs to Consider</h3>
+                <p><strong>Beyond battery price:</strong></p>
+                <ul>
+                    <li>Shipping (especially international): $10-30</li>
+                    <li>Charger upgrade eventually needed: $80-150</li>
+                    <li>LiPo bags and safety equipment: $15-30</li>
+                    <li>Replacement connectors over time: $10-20/year</li>
+                    <li>Storage solutions (bags, boxes): $20-50</li>
+                    <li>Disposal fees in some areas: $5-10 per battery</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div id="science" class="content-section">
+            <div class="card">
+                <h3>How LiPo Batteries Work</h3>
+                <p><strong>Basic chemistry:</strong></p>
+                <ul>
+                    <li><strong>Anode (negative):</strong> Graphite carbon</li>
+                    <li><strong>Cathode (positive):</strong> Lithium cobalt oxide</li>
+                    <li><strong>Electrolyte:</strong> Lithium salt in organic solvent</li>
+                    <li><strong>Separator:</strong> Microporous polymer membrane</li>
+                    <li>Lithium ions move between electrodes during charge/discharge</li>
+                    <li>Chemical energy converts to electrical energy</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>Why 3.7V Per Cell?</h3>
+                <p><strong>Voltage explanation:</strong></p>
+                <ul>
+                    <li>3.7V is "nominal" voltage (average during discharge)</li>
+                    <li>Full charge: 4.2V (fully charged state)</li>
+                    <li>Storage: 3.8V (most stable chemical state)</li>
+                    <li>Empty: 3.0V (lower risks permanent damage)</li>
+                    <li>Voltage determined by chemistry and electrode materials</li>
+                    <li>Different chemistries have different voltages</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>Energy Density Explained</h3>
+                <p><strong>Why LiPo for drones:</strong></p>
+                <ul>
+                    <li><strong>Energy density:</strong> 150-200 Wh/kg</li>
+                    <li>Higher than NiMH (60-80 Wh/kg)</li>
+                    <li>Higher than Lead-acid (30-40 Wh/kg)</li>
+                    <li>Lower than Li-ion (250-300 Wh/kg) but higher discharge</li>
+                    <li>Best balance of energy and power for RC use</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>What Causes Battery Degradation</h3>
+                <p><strong>Aging mechanisms:</strong></p>
+                <ul>
+                    <li><strong>Cycle aging:</strong> Charge/discharge breaks down materials</li>
+                    <li><strong>Calendar aging:</strong> Time alone causes degradation</li>
+                    <li><strong>SEI layer growth:</strong> Resistance increases over time</li>
+                    <li><strong>Lithium plating:</strong> Fast charging damages electrodes</li>
+                    <li><strong>Electrolyte decomposition:</strong> Heat accelerates breakdown</li>
+                    <li><strong>Mechanical stress:</strong> Swelling from gas generation</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>Temperature Effects on Chemistry</h3>
+                <p><strong>How temperature impacts performance:</strong></p>
+                <ul>
+                    <li><strong>Cold:</strong> Slows ion movement = higher resistance</li>
+                    <li><strong>Heat:</strong> Faster reactions but accelerates degradation</li>
+                    <li><strong>Optimal range:</strong> 20-30°C for performance and longevity</li>
+                    <li>Every 10°C increase doubles degradation rate</li>
+                    <li>Below 0°C: Risk of lithium plating during charge</li>
+                    <li>Above 60°C: Thermal runaway risk begins</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>Understanding C-Rating Science</h3>
+                <p><strong>What C-rating actually means:</strong></p>
+                <ul>
+                    <li>C-rating = multiple of capacity</li>
+                    <li>1C = discharge at capacity rate (1500mAh = 1.5A)</li>
+                    <li>75C = 75× capacity (1500mAh = 112.5A)</li>
+                    <li>Limited by: electrode surface area, electrolyte conductivity</li>
+                    <li>Higher C = thicker electrodes = less capacity</li>
+                    <li>Trade-off: high C-rating OR high capacity, rarely both</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>Why Batteries Puff/Swell</h3>
+                <p><strong>Swelling mechanism:</strong></p>
+                <ul>
+                    <li>Gas generation from electrolyte breakdown</li>
+                    <li>Caused by: overcharge, overdischarge, heat, age</li>
+                    <li>Gases: CO2, CO, hydrocarbons</li>
+                    <li>Pressure builds up inside pouch</li>
+                    <li>Irreversible damage to cell structure</li>
+                    <li>Swollen battery = permanent damage, retire immediately</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>Series vs Parallel Science</h3>
+                <p><strong>Why series adds voltage:</strong></p>
+                <ul>
+                    <li>Series: Cells connected + to - to + to -</li>
+                    <li>Voltages add: 3.7V + 3.7V + 3.7V = 11.1V (3S)</li>
+                    <li>Capacity stays same</li>
+                    <li>Current flows through all cells equally</li>
+                </ul>
+                <p><strong>Why parallel adds capacity:</strong></p>
+                <ul>
+                    <li>Parallel: All + together, all - together</li>
+                    <li>Voltage stays same: 3.7V</li>
+                    <li>Capacity adds: 1500mAh + 1500mAh = 3000mAh</li>
+                    <li>Current splits between cells</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>Battery Safety Chemistry</h3>
+                <p><strong>Why LiPo can be dangerous:</strong></p>
+                <ul>
+                    <li>Organic electrolyte is flammable</li>
+                    <li>Lithium reacts violently with water</li>
+                    <li>Thermal runaway: Heat → more heat → fire</li>
+                    <li>Short circuit = massive current = instant heat</li>
+                    <li>Puncture exposes materials to oxygen</li>
+                    <li>Proper handling prevents 99.9% of incidents</li>
+                </ul>
+            </div>
+            
+            <div class="card tip">
+                <h3>Interesting Battery Facts</h3>
+                <ul>
+                    <li>Single cell contains billions of lithium ions</li>
+                    <li>Ions move at ~1 meter per second during discharge</li>
+                    <li>Battery can deliver 100A from 200g package</li>
+                    <li>Energy density: Same as TNT (but controlled release)</li>
+                    <li>Calendar aging continues even unused (slower)</li>
+                    <li>0°C storage slows aging by 50% vs room temp</li>
+                    <li>Full battery life predetermined at manufacturing</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div id="comparison" class="content-section">
+            <div class="card">
+                <h3>LiPo vs Li-ion Comparison</h3>
+                <table class="specs-table">
+                    <tr><td><strong>Feature</strong></td><td><strong>LiPo</strong></td><td><strong>Li-ion</strong></td></tr>
+                    <tr><td>Energy Density</td><td>150-200 Wh/kg</td><td>250-300 Wh/kg</td></tr>
+                    <tr><td>Discharge Rate</td><td>Very High (100C+)</td><td>Moderate (10-30C)</td></tr>
+                    <tr><td>Shape</td><td>Flexible, any shape</td><td>Rigid cylinder/pouch</td></tr>
+                    <tr><td>Safety</td><td>More volatile</td><td>More stable</td></tr>
+                    <tr><td>Lifespan</td><td>150-300 cycles</td><td>500-1000 cycles</td></tr>
+                    <tr><td>Cost</td><td>Lower</td><td>Higher</td></tr>
+                    <tr><td>Best for</td><td>Performance, racing</td><td>Long flights, consumer</td></tr>
+                </table>
+            </div>
+            
+            <div class="card">
+                <h3>4S vs 6S Performance Comparison</h3>
+                <table class="specs-table">
+                    <tr><td><strong>Aspect</strong></td><td><strong>4S (14.8V)</strong></td><td><strong>6S (22.2V)</strong></td></tr>
+                    <tr><td>Top Speed</td><td>Good</td><td>Excellent</td></tr>
+                    <tr><td>Punch/Power</td><td>Good</td><td>Superior</td></tr>
+                    <tr><td>Efficiency</td><td>Very Good</td><td>Good</td></tr>
+                    <tr><td>Heat Generation</td><td>Lower</td><td>Higher</td></tr>
+                    <tr><td>Motor Lifespan</td><td>Longer</td><td>Shorter</td></tr>
+                    <tr><td>ESC Cost</td><td>Lower</td><td>Higher</td></tr>
+                    <tr><td>Flying Style</td><td>Technical, smooth</td><td>Aggressive, fast</td></tr>
+                    <tr><td>Best for</td><td>Beginners, technical</td><td>Experienced, speed</td></tr>
+                </table>
+            </div>
+            
+            <div class="card">
+                <h3>Brand Comparison Guide</h3>
+                <p><strong>Premium Tier ($50-70 per pack):</strong></p>
+                <ul>
+                    <li><strong>Tattu R-Line:</strong> Top performance, consistent, 250+ cycles</li>
+                    <li><strong>MaxAmps:</strong> US-made, excellent QC, best warranty</li>
+                    <li><strong>GNB:</strong> Racing favorite, very low IR, 200+ cycles</li>
+                </ul>
+                <p><strong>Mid-Range Tier ($30-45 per pack):</strong></p>
+                <ul>
+                    <li><strong>CNHL:</strong> Best value, reliable, 150+ cycles</li>
+                    <li><strong>Gens Ace:</strong> Consistent quality, wide selection</li>
+                    <li><strong>Turnigy Graphene:</strong> Good performance, affordable</li>
+                </ul>
+                <p><strong>Budget Tier ($20-30 per pack):</strong></p>
+                <ul>
+                    <li><strong>Zeee:</strong> Hit-or-miss quality, 80-120 cycles</li>
+                    <li><strong>Ovonic:</strong> Decent for practice, check reviews</li>
+                    <li><strong>HRB:</strong> Budget option, lower C-rating than advertised</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>Capacity Options Comparison</h3>
+                <p><strong>For 5-inch quad racing/freestyle:</strong></p>
+                <table class="specs-table">
+                    <tr><td>850mAh</td><td>Ultra light, 2 min, pure racing</td></tr>
+                    <tr><td>1000mAh</td><td>Light racing, 2-3 min</td></tr>
+                    <tr><td>1300mAh</td><td>Sweet spot racing, 3-4 min</td></tr>
+                    <tr><td>1500mAh</td><td>Balanced freestyle, 4-5 min</td></tr>
+                    <tr><td>1800mAh</td><td>Extended freestyle, 5-6 min</td></tr>
+                    <tr><td>2200mAh</td><td>Cinematic/cruising, 7-8 min</td></tr>
+                </table>
+            </div>
+            
+            <div class="card">
+                <h3>Connector Type Comparison</h3>
+                <table class="specs-table">
+                    <tr><td><strong>Type</strong></td><td><strong>Current</strong></td><td><strong>Resistance</strong></td><td><strong>Use Case</strong></td></tr>
+                    <tr><td>XT30</td><td>30A</td><td>~3mΩ</td><td>Micro/3" builds</td></tr>
+                    <tr><td>XT60</td><td>60A</td><td>~3mΩ</td><td>Most 5" builds</td></tr>
+                    <tr><td>XT90</td><td>90A</td><td>~2mΩ</td><td>6S high power</td></tr>
+                    <tr><td>Deans/T</td><td>60A</td><td>~3mΩ</td><td>Alternative to XT60</td></tr>
+                    <tr><td>EC5</td><td>120A</td><td>~1.5mΩ</td><td>Heavy lift/X-class</td></tr>
+                </table>
+            </div>
+            
+            <div class="card">
+                <h3>Storage Method Comparison</h3>
+                <p><strong>Safety vs convenience:</strong></p>
+                <ul>
+                    <li><strong>Metal ammo can + sand:</strong> Safest, fireproof, cheap</li>
+                    <li><strong>LiPo safety bag:</strong> Good protection, portable, $10-20</li>
+                    <li><strong>Bat-Safe:</strong> Best containment, expensive ($80-150)</li>
+                    <li><strong>Ceramic flower pot:</strong> DIY option, decent protection</li>
+                    <li><strong>Cardboard box:</strong> NOT SAFE - never use</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>Charger Comparison</h3>
+                <p><strong>Entry Level ($30-50):</strong></p>
+                <ul>
+                    <li>Single port, 50-100W, basic balance charging</li>
+                    <li>Good for: 1-3 batteries, beginners</li>
+                </ul>
+                <p><strong>Mid-Range ($80-150):</strong></p>
+                <ul>
+                    <li>Dual port, 200W+, storage charge function</li>
+                    <li>Good for: 6-8 batteries, regular pilots</li>
+                </ul>
+                <p><strong>Professional ($200-400):</strong></p>
+                <ul>
+                    <li>Quad port, 400W+, advanced features, app control</li>
+                    <li>Good for: 12+ batteries, serious pilots/racers</li>
+                </ul>
+            </div>
+            
+            <div class="card tip">
+                <h3>Quick Decision Guide</h3>
+                <ul>
+                    <li><strong>New pilot?</strong> Start with 4S 1300-1500mAh mid-range brand</li>
+                    <li><strong>Racing?</strong> 4S/6S 1000-1300mAh premium brand</li>
+                    <li><strong>Freestyle?</strong> 4S/6S 1500-1800mAh quality mid-range</li>
+                    <li><strong>Cinematic?</strong> 4S/6S 2200-3000mAh consistent brand</li>
+                    <li><strong>Long range?</strong> 4S/6S 3000-4000mAh reliable brand</li>
+                    <li><strong>Micro/whoop?</strong> 1S/2S 300-450mAh budget OK</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div id="tricks" class="content-section">
+            <div class="card">
+                <h3>Battery Matching for Peak Performance</h3>
+                <p><strong>Pro technique for consistent flights:</strong></p>
+                <ul>
+                    <li>Buy batteries from same batch/date code</li>
+                    <li>Test internal resistance on all new batteries</li>
+                    <li>Group batteries with IR within 2mΩ</li>
+                    <li>Use matched sets for important flights</li>
+                    <li>Rotate usage evenly to keep matched sets aging together</li>
+                    <li>Mark sets with colored tape or labels</li>
+                    <li>Matched batteries = predictable performance every time</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>The "Sweet Spot" Landing Technique</h3>
+                <p><strong>Maximize cycles without sacrificing safety:</strong></p>
+                <ul>
+                    <li>Most pilots land too low (3.3-3.5V/cell)</li>
+                    <li>Landing at 3.7V/cell adds 50% more cycle life</li>
+                    <li>Landing at 3.6V/cell adds 30% more cycles</li>
+                    <li>Set multiple alarms: 3.7V (soft), 3.5V (land now)</li>
+                    <li>Trade 30 seconds flight time for months of battery life</li>
+                    <li>Track voltage drop per minute to predict landing</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>Fast Field Balancing Trick</h3>
+                <p><strong>Quick balance check without charger:</strong></p>
+                <ul>
+                    <li>Use multi-cell voltage checker with individual readings</li>
+                    <li>After landing, check cell spread immediately</li>
+                    <li>If cells within 0.02V: good to fly again after charge</li>
+                    <li>If cells differ 0.05V+: needs balance charge</li>
+                    <li>If cells differ 0.10V+: retire that battery</li>
+                    <li>Takes 10 seconds, saves potential crashes</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>Temperature Pre-Loading</h3>
+                <p><strong>Advanced cold weather technique:</strong></p>
+                <ul>
+                    <li>Warm battery to 25-30°C before flying</li>
+                    <li>First 30 seconds: hover only (generates internal heat)</li>
+                    <li>Battery self-heats from internal resistance</li>
+                    <li>After warm-up: normal performance restored</li>
+                    <li>Trick: Pre-warm batteries in pockets close to body</li>
+                    <li>Can recover 30-40% of cold weather capacity loss</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>Voltage Alarm Staggering</h3>
+                <p><strong>Never miss a warning:</strong></p>
+                <ul>
+                    <li>Set 3 alarms at different voltages</li>
+                    <li><strong>Alarm 1 (3.7V):</strong> Soft beep - start heading back</li>
+                    <li><strong>Alarm 2 (3.6V):</strong> Frequent beep - find landing spot</li>
+                    <li><strong>Alarm 3 (3.5V):</strong> Constant beep - land immediately</li>
+                    <li>Gives progressive warnings vs sudden panic</li>
+                    <li>Adjust based on your flying style and battery performance</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>The Overnight Storage Hack</h3>
+                <p><strong>When you forget to storage charge:</strong></p>
+                <ul>
+                    <li>Full battery (4.2V) sitting overnight = not ideal but OK</li>
+                    <li>Storage charge within 24 hours to minimize damage</li>
+                    <li>If full for 2-3 days: storage charge + note in log</li>
+                    <li>If full for week+: expect reduced lifespan (~20%)</li>
+                    <li>Prevention: Set phone reminder for storage charging</li>
+                    <li>Some chargers have auto-storage after X hours</li>
+                </ul>
+            </div>
+            
+            <div class="card tip">
+                <h3>Parallel Charging Safety Trick</h3>
+                <ul>
+                    <li>Always check voltage BEFORE connecting to parallel board</li>
+                    <li>Max voltage difference: 0.1V per cell</li>
+                    <li>Example: Don't parallel 3.7V battery with 4.1V battery</li>
+                    <li>Higher voltage battery will dump into lower (dangerous)</li>
+                    <li>Use voltage checker before every parallel session</li>
+                    <li>Mark batteries with voltage ranges for easy grouping</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>Battery "Rest Period" Optimization</h3>
+                <p><strong>Timing between flights matters:</strong></p>
+                <ul>
+                    <li>After landing: Let battery rest 5-10 minutes minimum</li>
+                    <li>Chemical reactions need time to stabilize</li>
+                    <li>Immediate recharge = voltage reads higher than actual</li>
+                    <li>15-minute rest = accurate voltage reading</li>
+                    <li>Also allows physical cooling before charging</li>
+                    <li>Use this time for drone inspection/repairs</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>The "Cycle Logging" System</h3>
+                <p><strong>Track performance trends:</strong></p>
+                <ul>
+                    <li>Create simple spreadsheet or notebook</li>
+                    <li>Columns: Date, Battery ID, Start V, End V, Flight Time, Temp</li>
+                    <li>Takes 30 seconds per battery</li>
+                    <li>After 20-30 flights: clear performance patterns emerge</li>
+                    <li>Identify which batteries best for racing vs freestyle</li>
+                    <li>Predict when battery will need retirement</li>
+                    <li>Helps justify upgrades to non-pilot friends/family</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>Connector Cleaning Routine</h3>
+                <p><strong>Maintain low resistance connections:</strong></p>
+                <ul>
+                    <li>Every 50 cycles: inspect all connectors</li>
+                    <li>Use electrical contact cleaner spray</li>
+                    <li>Spray connectors, plug/unplug 10 times</li>
+                    <li>Check for discoloration (indicates resistance/heat)</li>
+                    <li>Light sanding with 1000-grit for heavy oxidation</li>
+                    <li>Clean connectors = 2-3% efficiency gain</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div id="mistakes" class="content-section">
+            <div class="card warning">
+                <h3>Mistake #1: Storing Fully Charged</h3>
+                <p><strong>Why it's bad:</strong></p>
+                <ul>
+                    <li>Causes rapid capacity degradation</li>
+                    <li>Can lose 20-30% capacity in 3-6 months</li>
+                    <li>Increases risk of swelling</li>
+                    <li>Accelerates internal resistance growth</li>
+                </ul>
+                <p><strong>Fix:</strong> Always storage charge to 3.8V/cell within 24 hours</p>
+            </div>
+            
+            <div class="card warning">
+                <h3>Mistake #2: Charging Immediately After Flight</h3>
+                <p><strong>Why it's bad:</strong></p>
+                <ul>
+                    <li>Hot battery + charging = excessive heat</li>
+                    <li>Accelerates aging by 2-3x</li>
+                    <li>Inaccurate voltage readings when hot</li>
+                    <li>Risk of thermal runaway if battery damaged</li>
+                </ul>
+                <p><strong>Fix:</strong> Wait 15-30 minutes for battery to cool to room temp</p>
+            </div>
+            
+            <div class="card warning">
+                <h3>Mistake #3: Ignoring Cell Imbalance</h3>
+                <p><strong>Why it's bad:</strong></p>
+                <ul>
+                    <li>One cell drains faster = over-discharge</li>
+                    <li>Can cause mid-flight failure</li>
+                    <li>Damages weak cell permanently</li>
+                    <li>Imbalance gets worse over time</li>
+                </ul>
+                <p><strong>Fix:</strong> Check balance after every flight, balance charge always</p>
+            </div>
+            
+            <div class="card warning">
+                <h3>Mistake #4: Using Wrong C-Rating</h3>
+                <p><strong>Why it's bad:</strong></p>
+                <ul>
+                    <li>Too low C-rating = excessive voltage sag</li>
+                    <li>Battery overheats trying to deliver power</li>
+                    <li>Reduces lifespan to 30-50 cycles</li>
+                    <li>Power cuts during aggressive maneuvers</li>
+                </ul>
+                <p><strong>Fix:</strong> Calculate required C-rating: Max Amps / Capacity (Ah)</p>
+            </div>
+            
+            <div class="card warning">
+                <h3>Mistake #5: Not Labeling Batteries</h3>
+                <p><strong>Why it's bad:</strong></p>
+                <ul>
+                    <li>Can't track which battery has issues</li>
+                    <li>Lose track of cycle counts</li>
+                    <li>Mix old and new batteries</li>
+                    <li>Can't identify damaged battery after crash</li>
+                </ul>
+                <p><strong>Fix:</strong> Label with ID, purchase date, use tracking system</p>
+            </div>
+            
+            <div class="card warning">
+                <h3>Mistake #6: Leaving Batteries in Hot Car</h3>
+                <p><strong>Why it's bad:</strong></p>
+                <ul>
+                    <li>Car interiors reach 60-80°C (140-176°F) in summer</li>
+                    <li>One day in hot car = weeks of aging</li>
+                    <li>Risk of thermal runaway and fire</li>
+                    <li>Permanent capacity loss (10-30%)</li>
+                </ul>
+                <p><strong>Fix:</strong> Always bring batteries inside or use cooler</p>
+            </div>
+            
+            <div class="card warning">
+                <h3>Mistake #7: Over-Discharging "Just Once"</h3>
+                <p><strong>Why it's bad:</strong></p>
+                <ul>
+                    <li>Going below 3.0V/cell causes permanent damage</li>
+                    <li>Even one over-discharge reduces capacity 20%+</li>
+                    <li>Battery never recovers fully</li>
+                    <li>"Just once" often turns into habit</li>
+                </ul>
+                <p><strong>Fix:</strong> Set alarms and stick to them, no exceptions</p>
+            </div>
+            
+            <div class="card warning">
+                <h3>Mistake #8: Buying Cheapest Batteries</h3>
+                <p><strong>Why it's bad:</strong></p>
+                <ul>
+                    <li>Unknown brands lie about specs (50C = actually 25C)</li>
+                    <li>Inconsistent cells = dangerous voltage imbalance</li>
+                    <li>Short lifespan (30-50 cycles)</li>
+                    <li>Higher failure/fire risk</li>
+                </ul>
+                <p><strong>Fix:</strong> Buy from reputable brands, read community reviews</p>
+            </div>
+            
+            <div class="card warning">
+                <h3>Mistake #9: Not Checking Batteries Before Flying</h3>
+                <p><strong>Why it's bad:</strong></p>
+                <ul>
+                    <li>Damaged battery from previous crash goes unnoticed</li>
+                    <li>Swelling develops between flights</li>
+                    <li>Connector damage causes mid-flight disconnect</li>
+                    <li>Voltage too low = immediate landing needed</li>
+                </ul>
+                <p><strong>Fix:</strong> Pre-flight check every time: visual, voltage, temp</p>
+            </div>
+            
+            <div class="card warning">
+                <h3>Mistake #10: Using Damaged Batteries "One More Time"</h3>
+                <p><strong>Why it's bad:</strong></p>
+                <ul>
+                    <li>Damaged batteries can fail catastrophically</li>
+                    <li>Fire risk increases 100x with visible damage</li>
+                    <li>Not worth risk for $30 battery</li>
+                    <li>"One more flight" often ends in fire or crash</li>
+                </ul>
+                <p><strong>Fix:</strong> ANY damage = retire immediately, no exceptions</p>
+            </div>
+        </div>
+        
+        <div id="environment" class="content-section">
+            <div class="card">
+                <h3>Environmental Impact of Batteries</h3>
+                <p><strong>The reality:</strong></p>
+                <ul>
+                    <li>LiPo batteries contain toxic materials</li>
+                    <li>Mining lithium has environmental cost</li>
+                    <li>Manufacturing creates significant CO2</li>
+                    <li>Improper disposal contaminates soil and water</li>
+                    <li>But: proper use and disposal minimizes impact</li>
+                    <li>RC hobby impact tiny vs consumer electronics</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>Maximizing Battery Lifespan = Eco-Friendly</h3>
+                <p><strong>Fewer batteries = less environmental impact:</strong></p>
+                <ul>
+                    <li>200 cycles vs 100 cycles = 50% less waste</li>
+                    <li>Proper care doubles typical battery life</li>
+                    <li>Premium batteries last 2-3x longer than budget</li>
+                    <li>Every extra cycle reduces per-flight footprint</li>
+                    <li>Good care is both economical AND ecological</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>Proper Battery Disposal</h3>
+                <p><strong>Step-by-step eco-friendly disposal:</strong></p>
+                <ul>
+                    <li><strong>Step 1:</strong> Discharge to 0V using salt water method</li>
+                    <li><strong>Step 2:</strong> Submerge in salt water for 24-48 hours</li>
+                    <li><strong>Step 3:</strong> Verify 0V with multimeter</li>
+                    <li><strong>Step 4:</strong> Tape all terminals</li>
+                    <li><strong>Step 5:</strong> Take to certified e-waste recycling</li>
+                    <li>Find locations: Call2Recycle, Best Buy, local programs</li>
+                    <li>Some hobby shops accept old batteries for recycling</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>Salt Water Discharge Method Details</h3>
+                <p><strong>Safe home discharge procedure:</strong></p>
+                <ul>
+                    <li>Use plastic container (not metal)</li>
+                    <li>Mix: 1/4 cup salt per gallon of water</li>
+                    <li>Place outdoors in safe area</li>
+                    <li>Submerge battery completely</li>
+                    <li>Wait 24-48 hours</li>
+                    <li>Bubbling is normal (hydrogen release)</li>
+                    <li>Check voltage before removing from water</li>
+                    <li>Pour salt water down drain after (diluted)</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>Battery Recycling Programs</h3>
+                <ul>
+                    <li><strong>Call2Recycle:</strong> Nationwide drop-off locations (US/Canada)</li>
+                    <li><strong>Best Buy:</strong> Accepts rechargeable batteries</li>
+                    <li><strong>Home Depot/Lowe's:</strong> Battery recycling kiosks</li>
+                    <li><strong>Local hobby shops:</strong> Many participate in recycling</li>
+                    <li><strong>Municipal hazardous waste:</strong> Check local programs</li>
+                    <li><strong>Battery manufacturers:</strong> Some have take-back programs</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>Reducing Battery Waste</h3>
+                <p><strong>Practical strategies:</strong></p>
+                <ul>
+                    <li>Buy quality over quantity (fewer replacements)</li>
+                    <li>Repair when possible (connector replacement vs new battery)</li>
+                    <li>Share knowledge - help others extend battery life</li>
+                    <li>Organize community recycling drives</li>
+                    <li>Repurpose old batteries for low-drain applications</li>
+                    <li>Track and optimize your battery usage</li>
+                </ul>
+            </div>
+            
+            <div class="card tip">
+                <h3>Second Life for Retired Batteries</h3>
+                <p><strong>Safe reuse options (if cells still good):</strong></p>
+                <ul>
+                    <li>Low-power LED projects</li>
+                    <li>Slow-flying planes/gliders</li>
+                    <li>Ground-based RC cars (lower risk)</li>
+                    <li>Solar backup systems (stationary use)</li>
+                    <li>Educational electronics projects</li>
+                    <li><strong>Never use for:</strong> Flight with expensive equipment</li>
+                    <li><strong>Retire if:</strong> Swollen, damaged, or IR >40mΩ</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>Eco-Conscious Purchasing</h3>
+                <ul>
+                    <li>Buy from companies with recycling programs</li>
+                    <li>Choose brands with environmental certifications</li>
+                    <li>Buy appropriate capacity (not excessive)</li>
+                    <li>Invest in quality charger (extends battery life)</li>
+                    <li>Join group buys (reduces shipping environmental cost)</li>
+                    <li>Support local retailers when possible</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>Community Responsibility</h3>
+                <ul>
+                    <li>Educate new pilots on proper battery care</li>
+                    <li>Organize club recycling collection events</li>
+                    <li>Share disposal location information</li>
+                    <li>Report improper disposal (environmental hazard)</li>
+                    <li>Lead by example with responsible practices</li>
+                    <li>Support regulations for battery safety/recycling</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div id="glossary" class="content-section">
+            <div class="card">
+                <h3>A - C Terms</h3>
+                <ul>
+                    <li><strong>Amp (A):</strong> Unit of electrical current flow</li>
+                    <li><strong>Ah (Amp-hour):</strong> Battery capacity measurement</li>
+                    <li><strong>Balance Charging:</strong> Charging each cell to same voltage</li>
+                    <li><strong>BMS:</strong> Battery Management System</li>
+                    <li><strong>C-Rating:</strong> Discharge rate capability (e.g., 75C)</li>
+                    <li><strong>Capacity:</strong> Total energy storage (mAh or Ah)</li>
+                    <li><strong>Cell:</strong> Individual battery unit (3.7V nominal)</li>
+                    <li><strong>Cycle:</strong> One complete charge and discharge</li>
+                    <li><strong>Calendar Aging:</strong> Degradation over time regardless of use</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>D - I Terms</h3>
+                <ul>
+                    <li><strong>Discharge Rate:</strong> Speed of power delivery</li>
+                    <li><strong>Energy Density:</strong> Energy per weight (Wh/kg)</li>
+                    <li><strong>ESC:</strong> Electronic Speed Controller</li>
+                    <li><strong>FPV:</strong> First Person View</li>
+                    <li><strong>Heat Shrink:</strong> Protective insulation tubing</li>
+                    <li><strong>IR (Internal Resistance):</strong> Battery health indicator (mΩ)</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>L - P Terms</h3>
+                <ul>
+                    <li><strong>LiPo:</strong> Lithium Polymer battery</li>
+                    <li><strong>Li-ion:</strong> Lithium Ion battery</li>
+                    <li><strong>LiHV:</strong> Lithium High Voltage (4.35V max)</li>
+                    <li><strong>Load:</strong> Electrical demand on battery</li>
+                    <li><strong>mAh:</strong> Milliamp-hour, capacity measurement</li>
+                    <li><strong>mΩ:</strong> Milliohm, resistance measurement</li>
+                    <li><strong>Nominal Voltage:</strong> Average voltage (3.7V for LiPo)</li>
+                    <li><strong>Parallel:</strong> Connection increasing capacity</li>
+                    <li><strong>Puffing:</strong> Battery swelling from gas buildup</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>S - Z Terms</h3>
+                <ul>
+                    <li><strong>S (Series):</strong> Cell count (3S = 3 cells = 11.1V)</li>
+                    <li><strong>SEI Layer:</strong> Solid Electrolyte Interface</li>
+                    <li><strong>Series:</strong> Connection increasing voltage</li>
+                    <li><strong>Storage Voltage:</strong> 3.8V per cell for long-term storage</li>
+                    <li><strong>Thermal Runaway:</strong> Uncontrolled heat generation</li>
+                    <li><strong>Voltage Sag:</strong> Voltage drop under load</li>
+                    <li><strong>Watt (W):</strong> Power measurement (Voltage × Current)</li>
+                    <li><strong>Wh (Watt-hour):</strong> Energy measurement</li>
+                    <li><strong>XT60/XT90:</strong> Common battery connector types</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>Common Abbreviations</h3>
+                <table class="specs-table">
+                    <tr><td>1C, 2C, etc.</td><td>Charge/discharge rate multiples</td></tr>
+                    <tr><td>BEC</td><td>Battery Elimination Circuit</td></tr>
+                    <tr><td>DoD</td><td>Depth of Discharge</td></tr>
+                    <tr><td>ESR</td><td>Equivalent Series Resistance</td></tr>
+                    <tr><td>NiMH</td><td>Nickel Metal Hydride</td></tr>
+                    <tr><td>OSD</td><td>On-Screen Display</td></tr>
+                    <tr><td>PWM</td><td>Pulse Width Modulation</td></tr>
+                    <tr><td>RTH</td><td>Return To Home</td></tr>
+                    <tr><td>SoC</td><td>State of Charge</td></tr>
+                    <tr><td>VTX</td><td>Video Transmitter</td></tr>
+                </table>
+            </div>
+            
+            <div class="card">
+                <h3>Voltage Reference Chart</h3>
+                <table class="specs-table">
+                    <tr><td><strong>State</strong></td><td><strong>1S</strong></td><td><strong>3S</strong></td><td><strong>4S</strong></td><td><strong>6S</strong></td></tr>
+                    <tr><td>Full Charge</td><td>4.2V</td><td>12.6V</td><td>16.8V</td><td>25.2V</td></tr>
+                    <tr><td>Storage</td><td>3.8V</td><td>11.4V</td><td>15.2V</td><td>22.8V</td></tr>
+                    <tr><td>Nominal</td><td>3.7V</td><td>11.1V</td><td>14.8V</td><td>22.2V</td></tr>
+                    <tr><td>Low Warning</td><td>3.5V</td><td>10.5V</td><td>14.0V</td><td>21.0V</td></tr>
+                    <tr><td>Critical</td><td>3.3V</td><td>9.9V</td><td>13.2V</td><td>19.8V</td></tr>
+                </table>
+            </div>
+            
+            <div class="card tip">
+                <h3>Quick Conversion Guide</h3>
+                <ul>
+                    <li><strong>mAh to Ah:</strong> Divide by 1000 (1500mAh = 1.5Ah)</li>
+                    <li><strong>C to Amps:</strong> C × Capacity (75C × 1.5Ah = 112.5A)</li>
+                    <li><strong>Wh Calculation:</strong> Voltage × Ah (14.8V × 1.5Ah = 22.2Wh)</li>
+                    <li><strong>Flight Time:</strong> (mAh × 0.8) / Avg Amps = Hours</li>
+                    <li><strong>Celsius to Fahrenheit:</strong> (C × 9/5) + 32</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>Safety Color Codes</h3>
+                <ul>
+                    <li><strong>🟢 Green/Good:</strong> 3.7-4.2V, cool temp, no damage</li>
+                    <li><strong>🟡 Yellow/Caution:</strong> 3.5-3.7V, warm, minor wear</li>
+                    <li><strong>🟠 Orange/Warning:</strong> 3.3-3.5V, hot, needs inspection</li>
+                    <li><strong>🔴 Red/Danger:</strong> Below 3.3V, very hot, damaged</li>
+                    <li><strong>⚫ Black/Retire:</strong> Swollen, punctured, won't hold charge</li>
+                </ul>
+            </div>
+        </div>
+        
+        <footer>
+            <p>⚡ Fly Safe • Charge Smart • Store Properly ⚡</p>
+            <p>Always follow manufacturer guidelines for your specific battery model</p>
+        </footer> your specific battery model</p>
+        </footer> your specific battery model</p>
+        </footer>
+    </div>
+    
+    <script>
+        function showTab(tabId) {
+            const sections = document.querySelectorAll('.content-section');
+            const buttons = document.querySelectorAll('.tab-btn');
+            
+            sections.forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            buttons.forEach(button => {
+                button.classList.remove('active');
+            });
+            
+            document.getElementById(tabId).classList.add('active');
+            event.target.classList.add('active');
+            
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
